@@ -38,9 +38,25 @@ Full justification: [`docs/STAGE1.md`](docs/STAGE1.md)
 
 15 tables in PostgreSQL, normalised to 3NF.
 
-![ER Diagram](docs/er-diagram.png)
+**Overview** (blue = users and profiles, orange = mentorship and forum, green = events and jobs)
 
+![ER Overview](docs/er/er-overview.png)
+
+**Module 1: Users and profiles**
+
+![Users and profiles](docs/er/er-users-profiles.png)
+
+**Module 2: Mentorship and forum**
+
+![Mentorship and forum](docs/er/er-mentorship-forum.png)
+
+**Module 3: Events and jobs**
+
+![Events and jobs](docs/er/er-events-jobs.png)
+
+- Full diagram (all tables and columns): [`docs/er-diagram.png`](docs/er-diagram.png) · [SVG](docs/er-diagram.svg)
 - SQL schema: [`database/schema.sql`](database/schema.sql)
+- Diagram generator (Graphviz): [`docs/er/generate_er.py`](docs/er/generate_er.py)
 - Mermaid source: [`docs/er-diagram.mmd`](docs/er-diagram.mmd)
 
 ## 📁 Project Structure
@@ -60,7 +76,8 @@ alumsetu/
 │   └── schema.sql     PostgreSQL schema
 └── docs/
     ├── STAGE1.md      Problem, features, architecture, stack
-    └── er-diagram.*   ER diagram (png, svg, mermaid)
+    ├── er-diagram.*   Full ER diagram (png, svg, mermaid)
+    └── er/            Overview + module ER diagrams
 ```
 
 ## 🚀 Getting Started
@@ -106,7 +123,7 @@ Database: open the Supabase SQL editor, paste `database/schema.sql`, and run it.
 
 - Problem statement: Smart India Hackathon 2024 (Govt. of Rajasthan)
 - Libraries: React, Vite, Express, pg, jsonwebtoken, bcrypt, Zod, Winston, Morgan, Tailwind CSS
-- Diagrams: Mermaid
+- Diagrams: Graphviz, Mermaid
 - AI tools: Claude (Anthropic) was used to help with planning, documentation and the database design draft. All code and design are reviewed by the team.
 
 ## 📄 License
