@@ -90,7 +90,7 @@ Technical colleges under the Government of Rajasthan have no central system for 
 ## 7. Database Design
 
 - **Type:** relational (SQL, PostgreSQL). 15 tables, normalised to 3NF.
-- **Diagram:** see `docs/er-diagram.png`. **Full SQL:** see `database/schema.sql`.
+- **Diagram:** see `docs/er/` (overview + 3 modules) and `docs/er-diagram.png` (full). **Full SQL:** see `database/schema.sql`.
 
 | Table | Purpose | Key relationships |
 |---|---|---|
