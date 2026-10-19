@@ -34,7 +34,7 @@ The React app on Vercel, the Express API on Render, and the database and file st
 A central Express error handler returns clean JSON errors. Winston logs errors and important events, and Morgan logs every request. Both are already set up in the repo.
 
 **Q12. Who is doing what?**
-Ashmita: backend, database and AI matching. Sid: the React frontend. Dhani: auth, admin panel, moderation, deployment and docs.
+Ashmita: backend, database and AI matching. Siddhanth S Shiraguppi: the React frontend. Dhanishtha: auth, admin panel, moderation, deployment and docs.
 
 **Q13. What if you run out of time?**
 Features are prioritised. The core MVP is auth, profiles, directory, mentorship, events and jobs. The chatbot and real-time chat are stretch goals.

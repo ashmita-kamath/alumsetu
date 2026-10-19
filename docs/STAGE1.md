@@ -1,7 +1,7 @@
 # AlumSetu — Stage 1: Ideation, Architecture & Database Design
 
 **Course:** Advanced Programming (AP) + Data Engineering (DE) — Two-Stage Capstone
-**Team:** Ashmita Kamath, Sid, Dhani
+**Team:** Ashmita Kamath, Siddhanth S Shiraguppi, Dhanishtha
 **Problem source:** Smart India Hackathon 2024 — "Intelligent platform to interconnect Alumni and Students", Technical Education Department, Govt. of Rajasthan (Center for Electronic Governance). Category: Software, Smart Education.
 
 ---
@@ -127,8 +127,8 @@ The top 5 verified, available alumni are shown as "Suggested mentors", with the 
 | Member | Responsibility |
 |---|---|
 | **Ashmita Kamath** | Team lead · backend APIs · database · AI matching |
-| **Sid** | Frontend: React pages, UI components, responsive design |
-| **Dhani** | Auth and admin panel · moderation · deployment · documentation and testing |
+| **Siddhanth S Shiraguppi** | Frontend: React pages, UI components, responsive design |
+| **Dhanishtha** | Auth and admin panel · moderation · deployment · documentation and testing |
 
 ## 10. Timeline
 
