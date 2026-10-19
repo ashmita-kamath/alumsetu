@@ -1,0 +1,149 @@
+erDiagram
+    INSTITUTIONS ||--o{ STUDENT_PROFILES : "enrolls"
+    INSTITUTIONS ||--o{ ALUMNI_PROFILES : "graduated"
+    USERS ||--o| STUDENT_PROFILES : "has"
+    USERS ||--o| ALUMNI_PROFILES : "has"
+    USERS ||--o{ USER_SKILLS : "has"
+    SKILLS ||--o{ USER_SKILLS : "tagged in"
+    USERS ||--o{ VERIFICATION_REQUESTS : "submits"
+    USERS ||--o{ MENTORSHIP_REQUESTS : "student sends"
+    USERS ||--o{ MENTORSHIP_REQUESTS : "alumni receives"
+    USERS ||--o{ FORUM_POSTS : "writes"
+    FORUM_POSTS ||--o{ FORUM_COMMENTS : "has"
+    USERS ||--o{ FORUM_COMMENTS : "writes"
+    USERS ||--o{ CONTENT_REPORTS : "files"
+    FORUM_POSTS ||--o{ CONTENT_REPORTS : "reported in"
+    FORUM_COMMENTS ||--o{ CONTENT_REPORTS : "reported in"
+    USERS ||--o{ EVENTS : "organizes"
+    EVENTS ||--o{ EVENT_REGISTRATIONS : "has"
+    USERS ||--o{ EVENT_REGISTRATIONS : "registers"
+    USERS ||--o{ JOBS : "alumni posts"
+    JOBS ||--o{ JOB_APPLICATIONS : "receives"
+    USERS ||--o{ JOB_APPLICATIONS : "student applies"
+
+    INSTITUTIONS {
+        int id PK
+        varchar name UK
+        varchar city
+        varchar district
+    }
+    USERS {
+        uuid id PK
+        varchar email UK
+        text password_hash
+        varchar full_name
+        enum role "student | alumni | admin"
+        enum status "pending | active | suspended"
+        timestamptz created_at
+    }
+    STUDENT_PROFILES {
+        uuid user_id PK,FK
+        int institution_id FK
+        varchar branch
+        smallint enrollment_year
+        smallint expected_grad_year
+        varchar career_goal
+        text bio
+    }
+    ALUMNI_PROFILES {
+        uuid user_id PK,FK
+        int institution_id FK
+        varchar branch
+        smallint graduation_year
+        varchar current_company
+        varchar job_title
+        varchar industry
+        varchar location
+        text linkedin_url
+        bool is_verified
+        bool available_for_mentoring
+    }
+    SKILLS {
+        int id PK
+        varchar name UK
+    }
+    USER_SKILLS {
+        uuid user_id PK,FK
+        int skill_id PK,FK
+    }
+    VERIFICATION_REQUESTS {
+        int id PK
+        uuid user_id FK
+        text document_url
+        enum status
+        uuid reviewed_by FK
+        text remarks
+        timestamptz submitted_at
+        timestamptz reviewed_at
+    }
+    MENTORSHIP_REQUESTS {
+        int id PK
+        uuid student_id FK
+        uuid alumni_id FK
+        text message
+        numeric match_score
+        enum status
+        timestamptz created_at
+        timestamptz responded_at
+    }
+    FORUM_POSTS {
+        int id PK
+        uuid author_id FK
+        varchar title
+        text body
+        varchar category
+        bool is_flagged
+        timestamptz created_at
+    }
+    FORUM_COMMENTS {
+        int id PK
+        int post_id FK
+        uuid author_id FK
+        text body
+        bool is_flagged
+        timestamptz created_at
+    }
+    CONTENT_REPORTS {
+        int id PK
+        uuid reporter_id FK
+        int post_id FK
+        int comment_id FK
+        varchar reason
+        enum status
+        timestamptz created_at
+    }
+    EVENTS {
+        int id PK
+        uuid organizer_id FK
+        varchar title
+        text description
+        enum type "meetup | webinar | panel | career_session"
+        enum mode "online | offline"
+        text venue_or_link
+        timestamptz start_time
+        int capacity
+    }
+    EVENT_REGISTRATIONS {
+        int event_id PK,FK
+        uuid user_id PK,FK
+        timestamptz registered_at
+        bool attended
+    }
+    JOBS {
+        int id PK
+        uuid posted_by FK
+        varchar title
+        varchar company
+        enum type "job | internship | referral"
+        varchar location
+        text description
+        date deadline
+    }
+    JOB_APPLICATIONS {
+        int id PK
+        int job_id FK
+        uuid student_id FK
+        text resume_url
+        enum status
+        timestamptz applied_at
+    }
