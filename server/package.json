@@ -1,0 +1,20 @@
+{
+  "name": "alumsetu-server",
+  "version": "0.1.0",
+  "description": "AlumSetu REST API",
+  "main": "src/index.js",
+  "type": "module",
+  "scripts": {
+    "dev": "node --watch src/index.js",
+    "start": "node src/index.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.1",
+    "morgan": "^1.10.0",
+    "pg": "^8.13.0",
+    "winston": "^3.15.0"
+  },
+  "license": "MIT"
+}
