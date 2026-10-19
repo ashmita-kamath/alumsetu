@@ -107,9 +107,9 @@ Database: open the Supabase SQL editor, paste `database/schema.sql`, and run it.
 
 | Member | Role |
 |---|---|
-| Ashmita Kamath | Team lead · backend · database · AI matching |
-| Sid | Frontend · UI/UX |
-| Dhani | Auth and admin · moderation · deployment · docs |
+| ASHMITA KAMATH | Team lead · backend · database · AI matching |
+| SIDDHANTH S SHIRAGUPPI | Frontend · UI/UX |
+| DHANISHTHA | Auth and admin · moderation · deployment · docs |
 
 ## 🗓️ Milestones
 
