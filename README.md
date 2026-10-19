@@ -1,4 +1,4 @@
-# AlumSetu 🌉
+# AlumSetu
 
 **A bridge between students and alumni of technical institutions in Rajasthan.**
 
@@ -9,23 +9,23 @@ AlumSetu is a web platform where current students connect with verified alumni f
 
 ---
 
-## ✨ Features
+## Features
 
 | Feature | Description |
 |---|---|
-| 🔐 Role-based login | Student, Alumni and Admin accounts (JWT) |
-| 👤 Profiles | Education, batch, company, skills |
-| 🔎 Alumni directory | Search by institution, branch, batch, company, skill |
-| 🤖 AI mentor matching | Suggests best-fit alumni based on skills and career goals |
-| 🤝 Mentorship | Request, accept or decline, and track status |
-| 💬 Forum | Posts and comments with auto-moderation and reporting |
-| 📅 Events | Meetups, webinars, panels, with registration |
-| 💼 Jobs and referrals | Alumni post openings, students apply |
-| ✅ Verified alumni | Admin approves proof documents to stop fake profiles |
+| Role-based login | Student, Alumni and Admin accounts (JWT) |
+| Profiles | Education, batch, company, skills |
+| Alumni directory | Search by institution, branch, batch, company, skill |
+| AI mentor matching | Suggests best-fit alumni based on skills and career goals |
+| Mentorship | Request, accept or decline, and track status |
+| Forum | Posts and comments with auto-moderation and reporting |
+| Events | Meetups, webinars, panels, with registration |
+| Jobs and referrals | Alumni post openings, students apply |
+| Verified alumni | Admin approves proof documents to stop fake profiles |
 
 **End goal:** a responsive website, deployed live on the cloud.
 
-## 🧱 Tech Stack
+## Tech Stack
 
 - **Frontend:** React (Vite), React Router, Tailwind CSS
 - **Backend:** Node.js, Express, JWT, bcrypt, Zod, Winston
@@ -34,7 +34,7 @@ AlumSetu is a web platform where current students connect with verified alumni f
 
 Full justification: [`docs/STAGE1.md`](docs/STAGE1.md)
 
-## 🗂️ Database
+## Database
 
 15 tables in PostgreSQL, normalised to 3NF.
 
@@ -59,7 +59,7 @@ Full justification: [`docs/STAGE1.md`](docs/STAGE1.md)
 - Diagram generator (Graphviz): [`docs/er/generate_er.py`](docs/er/generate_er.py)
 - Mermaid source: [`docs/er-diagram.mmd`](docs/er-diagram.mmd)
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 alumsetu/
@@ -80,7 +80,7 @@ alumsetu/
     └── er/            Overview + module ER diagrams
 ```
 
-## 🚀 Getting Started
+## Getting Started
 
 **Prerequisites:** Node.js 18+, a free Supabase project.
 
@@ -103,7 +103,7 @@ Then open http://localhost:5173
 
 Database: open the Supabase SQL editor, paste `database/schema.sql`, and run it.
 
-## 👥 Team
+## Team
 
 | Member | Role |
 |---|---|
@@ -111,7 +111,7 @@ Database: open the Supabase SQL editor, paste `database/schema.sql`, and run it.
 | Siddhanth S Shiraguppi | Frontend · UI/UX |
 | Dhanishtha | Auth and admin · moderation · deployment · docs |
 
-## 🗓️ Milestones
+## Milestones
 
 - [x] **Stage 1 (13–24 Oct):** ideation, architecture, ER diagram, repo
 - [ ] Auth and profiles
@@ -119,13 +119,13 @@ Database: open the Supabase SQL editor, paste `database/schema.sql`, and run it.
 - [ ] Forum, events, jobs, admin panel
 - [ ] **Stage 2 (26 Nov – 4 Dec):** integration, live deployment, presentation
 
-## 📚 Credits and Attribution
+## Credits and Attribution
 
 - Problem statement: Smart India Hackathon 2024 (Govt. of Rajasthan)
 - Libraries: React, Vite, Express, pg, jsonwebtoken, bcrypt, Zod, Winston, Morgan, Tailwind CSS
 - Diagrams: Graphviz, Mermaid
 - AI tools: Claude (Anthropic) was used to help with planning, documentation and the database design draft. All code and design are reviewed by the team.
 
-## 📄 License
+## License
 
 MIT
