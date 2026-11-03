@@ -223,7 +223,7 @@ Rules:
 |---|---|---|---|---|
 | POST | `/uploads` | any | multipart: `file`, `kind: "verification" \| "resume"` | `201 { url }` |
 
-PDF, JPG or PNG only, max 5 MB. Stored in Supabase Storage; verification files go in a private bucket.
+PDF, JPG or PNG only, max 5 MB. Stored on Cloudinary; verification files are uploaded as private (authenticated) assets and admins get a time-limited signed link.
 
 ### Alumni verification: owner Dhanishtha
 | Method | Path | Auth | Body | Returns |

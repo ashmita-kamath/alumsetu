@@ -29,8 +29,8 @@ AlumSetu is a web platform where current students connect with verified alumni f
 
 - **Frontend:** React (Vite), React Router, Tailwind CSS
 - **Backend:** Node.js, Express, JWT, bcrypt, Zod, Winston
-- **Database:** PostgreSQL (Supabase)
-- **Hosting:** Vercel (client), Render (server), Supabase (DB and storage)
+- **Database:** PostgreSQL (hosted on Neon)
+- **Hosting:** Vercel (client), Render (server), Neon (database), Cloudinary (file uploads)
 
 Full justification: [`docs/STAGE1.md`](docs/STAGE1.md)
 
@@ -85,7 +85,7 @@ alumsetu/
 
 ## Getting Started
 
-**Prerequisites:** Node.js 18+, a free Supabase project.
+**Prerequisites:** Node.js 18+, a free Neon PostgreSQL database, a free Cloudinary account.
 
 Backend:
 ```bash
@@ -104,7 +104,7 @@ npm run dev
 ```
 Then open http://localhost:5173
 
-Database: open the Supabase SQL editor, paste `database/schema.sql`, and run it.
+Database: open the Neon SQL editor, paste `database/schema.sql`, and run it.
 
 ## Team
 
@@ -125,7 +125,7 @@ Database: open the Supabase SQL editor, paste `database/schema.sql`, and run it.
 ## Credits and Attribution
 
 - Problem statement: Smart India Hackathon 2024 (Govt. of Rajasthan)
-- Libraries: React, Vite, Express, pg, jsonwebtoken, bcrypt, Zod, Winston, Morgan, Tailwind CSS
+- Libraries: React, Vite, Express, pg, jsonwebtoken, bcrypt, Zod, Winston, Morgan, Tailwind CSS, Cloudinary SDK
 - Diagrams: Graphviz, Mermaid
 - AI tools: Claude (Anthropic) was used to help with planning, documentation and the database design draft. All code and design are reviewed by the team.
 
