@@ -36,7 +36,7 @@ Every endpoint referenced below is defined in [`API.md`](API.md). Database table
 | Member | Tasks | Branch |
 |---|---|---|
 | Siddhanth | Install Tailwind and React Router. Set up folders (`components/`, `pages/`, `layouts/`, `services/`, `context/`). Build Navbar, Footer, Button, Input, Card, Modal. Build the landing page. Create `services/api.js` that reads `VITE_API_URL` and attaches the token. | `feat/ui-foundation` |
-| Ashmita | Create the Supabase project, run `schema.sql`. Add `pg` connection pool (`server/src/config/db.js`). Write `database/seed.sql` with institutions, skills and an admin account. Add `app.js` and route folder structure. | `feat/db-setup` |
+| Ashmita | Create the Neon project, run `schema.sql`. Add `pg` connection pool (`server/src/config/db.js`). Write `database/seed.sql` with institutions, skills and an admin account. Add `app.js` and route folder structure. | `feat/db-setup` |
 | Dhanishtha | Add Jest + Supertest to the server. Write the `validate(schema)` Zod middleware and the error helper (`AppError`) matching the `API.md` error format. Add `.github/pull_request_template.md`. Turn on branch protection for `main`. | `feat/quality-setup` |
 
 ## Phase 1: Auth and profiles · 5–8 Nov
@@ -53,7 +53,7 @@ Every endpoint referenced below is defined in [`API.md`](API.md). Database table
 |---|---|---|
 | Siddhanth | Alumni directory page with search, filters and pagination; alumni profile page with verified badge; "Suggested mentors" section on the student dashboard showing score and reasons. | `feat/ui-directory`, `feat/ui-matches` |
 | Ashmita | `GET /alumni` with all filters, `GET /alumni/:userId`, `GET /matches` (Jaccard + TF-IDF + branch, top 5 with reasons). Unit tests for the scoring function. | `feat/api-directory`, `feat/ai-matching` |
-| Dhanishtha | `POST /uploads` (Supabase Storage), `POST /verification`, `GET /verification/me`. Tests that unverified alumni never appear in matches. | `feat/uploads`, `feat/verification-submit` |
+| Dhanishtha | `POST /uploads` (Cloudinary), `POST /verification`, `GET /verification/me`. Tests that unverified alumni never appear in matches. | `feat/uploads`, `feat/verification-submit` |
 
 ## Phase 3: Mentorship, forum and moderation · 12–16 Nov
 
@@ -95,7 +95,7 @@ All three run these flows end to end and fix what breaks:
 |---|---|
 | Siddhanth | Deploy `client` to Vercel, set `VITE_API_URL`, test on phone and laptop. |
 | Ashmita | Deploy `server` to Render, set `DATABASE_URL`, check CORS, run seed on production DB, create demo accounts for all 3 roles. |
-| Dhanishtha | Production secrets, Supabase Storage policies, run the smoke-test checklist, write `docs/DEPLOYMENT.md`. |
+| Dhanishtha | Production secrets, private Cloudinary uploads for verification documents, run the smoke-test checklist, write `docs/DEPLOYMENT.md`. |
 
 ## Phase 8: Desktop and mobile apps (bonus) · 25 Nov onward
 

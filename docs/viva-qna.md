@@ -28,7 +28,7 @@ An automatic word filter runs on every post and comment before it is saved, and 
 Passwords are hashed with bcrypt. Login returns a JWT that contains the user's id and role. Middleware checks the token on every protected route, and a `requireRole('admin')` style check guards role-specific actions.
 
 **Q10. Where will it be deployed?**
-The React app on Vercel, the Express API on Render, and the database and file storage on Supabase. All three have free tiers and auto-deploy from GitHub.
+The React app on Vercel, the Express API on Render, and the PostgreSQL database on Neon, and uploaded files on Cloudinary. All three have free tiers and auto-deploy from GitHub.
 
 **Q11. How will you handle errors and logging?**
 A central Express error handler returns clean JSON errors. Winston logs errors and important events, and Morgan logs every request. Both are already set up in the repo.
