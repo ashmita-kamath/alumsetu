@@ -6,7 +6,8 @@
   "type": "module",
   "scripts": {
     "dev": "node --watch src/index.js",
-    "start": "node src/index.js"
+    "start": "node src/index.js",
+    "db:check": "node src/scripts/dbCheck.js"
   },
   "dependencies": {
     "cors": "^2.8.5",
