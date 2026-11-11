@@ -1,1 +1,26 @@
 @import "tailwindcss";
+
+@theme {
+  --color-navy: #1F2A44;
+  --color-cream: #F7F5F0;
+  --color-card: #FFFDF9;
+  --color-orange: #E08A3C;
+  --color-orange-dark: #A84F14;
+  --color-body: #4A5568;
+
+  --font-heading: "Domine", serif;
+  --font-body: "Nunito Sans", sans-serif;
+}
+
+@layer base {
+  body {
+    font-family: var(--font-body);
+    color: var(--color-body);
+    background-color: var(--color-cream);
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-heading);
+    color: var(--color-navy);
+  }
+}
