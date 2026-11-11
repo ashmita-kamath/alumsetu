@@ -3,7 +3,7 @@
 This file is the single source of truth for how the frontend and backend talk to each other.
 Frontend and backend must both follow it exactly. If an endpoint needs to change, change this file in the same pull request.
 
-- **Base URL (local):** `http://localhost:5000/api`
+- **Base URL (local):** `http://localhost:5050/api`
 - **Base URL (production):** set in `client/.env` as `VITE_API_URL`
 - **Format:** JSON in, JSON out (except file upload, which is `multipart/form-data`)
 - **Owner column:** who writes the backend code for that endpoint
@@ -124,7 +124,7 @@ PUT body for an **alumnus**:
 | Method | Path | Auth | Returns |
 |---|---|---|---|
 | GET | `/alumni` | any | paginated `AlumniCard` list |
-| GET | `/alumni/:userId` | any | `AlumniCard` + `bio`, `linkedin_url` |
+| GET | `/alumni/:userId` | any | `AlumniCard` + `linkedin_url` |
 
 Query filters for `GET /alumni` (all optional, combine freely):
 `search` (name, company or job title), `institution_id`, `branch`, `graduation_year`, `company`, `skill_id`, `verified=true`, `mentoring=true`, `sort=name|graduation_year`, `page`, `limit`.

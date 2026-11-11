@@ -94,7 +94,7 @@ npm install
 cp .env.example .env
 npm run dev
 ```
-Then open http://localhost:5000/api/health
+Then open http://localhost:5050/api/health
 
 Frontend (in a second terminal):
 ```bash
@@ -104,7 +104,9 @@ npm run dev
 ```
 Then open http://localhost:5173
 
-Database: open the Neon SQL editor, paste `database/schema.sql`, and run it.
+Database: open the Neon SQL editor and run, in order: `database/schema.sql`, `database/seed.sql`, and (for development only) `database/sample-data.sql`.
+
+Check the connection with `npm run db:check` inside `server/`.
 
 ## Team
 

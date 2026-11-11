@@ -3,7 +3,7 @@ import app from "./app.js";
 import logger from "./utils/logger.js";
 import { checkConnection } from "./config/db.js";
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 5050;
 
 app.listen(PORT, async () => {
   logger.info(`AlumSetu API running on port ${PORT}`);
