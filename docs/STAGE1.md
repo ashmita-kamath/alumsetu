@@ -61,14 +61,14 @@ Technical colleges under the Government of Rajasthan have no central system for 
 | Frontend | **React (Vite)** + React Router | Component-based UI; many pages share cards and forms; fast dev server; team already knows JavaScript |
 | Styling | **Tailwind CSS** | Quick, consistent, responsive styling without writing large CSS files |
 | Backend | **Node.js + Express** | Same language (JavaScript) on frontend and backend; simple REST APIs; huge ecosystem (auth, validation, logging) |
-| Database | **PostgreSQL** (hosted on Supabase) | Data is highly relational (users ↔ mentorships ↔ events ↔ jobs); needs foreign keys, joins and constraints; free managed hosting |
+| Database | **PostgreSQL** (hosted on Neon) | Data is highly relational (users ↔ mentorships ↔ events ↔ jobs); needs foreign keys, joins and constraints; free managed hosting |
 | Auth | **JWT + bcrypt** | Stateless login; passwords stored only as hashes; role is carried in the token for authorisation checks |
 | Validation | **Zod** | Validates every request body before it reaches the database |
 | Logging | **Winston + Morgan** | Request logs and error logs (needed for production best practices) |
 | AI matching | Skill-overlap (Jaccard) + TF-IDF similarity of career goal and job title | Explainable, fast, and needs no paid API; can be upgraded to embeddings later |
 | Moderation | `bad-words` filter (+ optional Perspective API) | Blocks abusive text before it is saved |
-| File uploads | Supabase Storage | Stores verification documents and resumes |
-| Hosting | **Vercel** (frontend), **Render** (backend), **Supabase** (DB) | Free tiers, GitHub auto-deploy, satisfies live cloud deployment |
+| File uploads | **Cloudinary** | Stores verification documents and resumes |
+| Hosting | **Vercel** (frontend), **Render** (backend), **Neon** (DB) | Free tiers, GitHub auto-deploy, satisfies live cloud deployment |
 | Version control | **Git + GitHub** | Branch per feature, pull requests, clear commit history |
 
 ### Architecture
@@ -84,7 +84,7 @@ Technical colleges under the Government of Rajasthan have no central system for 
         |   - matching service (AI)
         |   - moderation service
         v
-[ PostgreSQL on Supabase ]   [ Supabase Storage: documents, resumes ]
+[ PostgreSQL on Neon ]   [ Cloudinary: documents, resumes ]
 ```
 
 ## 7. Database Design
@@ -135,7 +135,7 @@ The top 5 verified, available alumni are shown as "Suggested mentors", with the 
 | Dates | Milestone |
 |---|---|
 | 13–24 Oct | **Stage 1:** idea, architecture, ER diagram, repo setup |
-| 25 Oct – 2 Nov | Database live on Supabase; auth and profiles API; login and profile pages |
+| 25 Oct – 2 Nov | Database live on Neon; auth and profiles API; login and profile pages |
 | 3–12 Nov | Directory, mentorship, AI matching |
 | 13–20 Nov | Forum and moderation, events, jobs board, admin panel |
 | 21–25 Nov | Logging, error handling, testing, cloud deployment |
