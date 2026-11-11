@@ -1,21 +1,16 @@
 import "dotenv/config";
-import express from "express";
-import cors from "cors";
-import morgan from "morgan";
+import app from "./app.js";
 import logger from "./utils/logger.js";
-import errorHandler from "./middleware/errorHandler.js";
-import healthRoutes from "./routes/health.js";
+import { checkConnection } from "./config/db.js";
 
-const app = express();
 const PORT = process.env.PORT || 5000;
 
-app.use(cors({ origin: process.env.CLIENT_URL || "*" }));
-app.use(express.json());
-app.use(morgan("dev"));
-
-app.use("/api/health", healthRoutes);
-
-app.use((req, res) => res.status(404).json({ error: "Route not found" }));
-app.use(errorHandler);
-
-app.listen(PORT, () => logger.info(`AlumSetu API running on port ${PORT}`));
+app.listen(PORT, async () => {
+  logger.info(`AlumSetu API running on port ${PORT}`);
+  try {
+    const { database } = await checkConnection();
+    logger.info(`Connected to PostgreSQL database "${database}"`);
+  } catch (err) {
+    logger.error({ message: "Could not connect to PostgreSQL", error: err.message });
+  }
+});
