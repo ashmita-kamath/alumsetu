@@ -1,8 +1,16 @@
+import { BrowserRouter } from "react-router-dom";
+import AppRoutes from "./routes/AppRoutes";
+
+/**
+ * Root Application Component.
+ *
+ * Wraps the application tree in BrowserRouter to enable HTML5 client-side routing.
+ */
 export default function App() {
   return (
-    <main style={{ fontFamily: "system-ui", padding: "3rem", textAlign: "center" }}>
-      <h1>AlumSetu</h1>
-      <p>Bridging students and alumni. Coming soon.</p>
-    </main>
+    <BrowserRouter>
+      <AppRoutes />
+    </BrowserRouter>
   );
 }
+
