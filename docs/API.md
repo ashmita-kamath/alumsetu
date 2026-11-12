@@ -148,6 +148,9 @@ Query filters for `GET /alumni` (all optional, combine freely):
 - `score = 0.6 × skill_overlap + 0.3 × goal_similarity + 0.1 × same_branch`, between 0 and 1.
 - Only alumni with `is_verified = true` and `available_for_mentoring = true`.
 - Students with no skills and no career goal get `[]` with `200`. The UI shows "complete your profile".
+- Only matches with at least one reason are returned. `limit` defaults to 5 (max 10).
+- Goal similarity compares the student's `career_goal` with the alumnus's `job_title` and `industry`.
+- Until auth is merged, local development can pass `?student_id=<uuid>`. This is ignored in production.
 
 ### Mentorship: owner Ashmita
 | Method | Path | Auth | Body | Returns |
