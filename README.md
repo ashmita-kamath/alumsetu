@@ -104,9 +104,11 @@ npm run dev
 ```
 Then open http://localhost:5173
 
-Database: open the Neon SQL editor and run, in order: `database/schema.sql`, `database/seed.sql`, and (for development only) `database/sample-data.sql`.
+Database: open the Neon SQL editor and run, in order: `database/schema.sql`, `database/seed.sql`, and (for development only) `database/sample-data.sql` and `database/sample-students.sql`.
 
 Check the connection with `npm run db:check` inside `server/`.
+
+Run the automated tests with `npm test` inside `server/`.
 
 ## Team
 
