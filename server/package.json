@@ -8,7 +8,7 @@
     "dev": "node --watch src/index.js",
     "start": "node src/index.js",
     "db:check": "node src/scripts/dbCheck.js",
-    "test": "node --env-file-if-exists=.env --test \"tests/**/*.test.js\""
+    "test": "node --env-file-if-exists=.env --test tests/*.test.js"
   },
   "dependencies": {
     "cors": "^2.8.5",
@@ -16,7 +16,11 @@
     "express": "^4.21.1",
     "morgan": "^1.10.0",
     "pg": "^8.13.0",
-    "winston": "^3.15.0"
+    "winston": "^3.15.0",
+    "zod": "^4.6.7"
+  },
+  "devDependencies": {
+    "supertest": "^7.3.2"
   },
   "license": "MIT"
 }
