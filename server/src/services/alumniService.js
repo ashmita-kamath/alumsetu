@@ -71,6 +71,16 @@ export async function searchAlumni(filters, { limit, offset }) {
   return { items: rows, total: countResult.rows[0].total };
 }
 
+// Every alumnus who can be suggested as a mentor: verified and open to mentoring.
+export async function listMentorCandidates() {
+  const { rows } = await query(
+    `SELECT ${CARD_COLUMNS} ${FROM_ALUMNI}
+       AND ap.is_verified = TRUE
+       AND ap.available_for_mentoring = TRUE`
+  );
+  return rows;
+}
+
 export async function getAlumniById(userId) {
   const { rows } = await query(
     `SELECT ${CARD_COLUMNS}, ap.linkedin_url ${FROM_ALUMNI} AND u.id = $1`,
