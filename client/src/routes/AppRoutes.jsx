@@ -8,6 +8,8 @@ import Login from "../pages/Login";
 import Register from "../pages/Register";
 import Dashboard from "../pages/dashboard/Dashboard";
 import EditProfile from "../pages/EditProfile";
+import MyRequests from "../pages/mentorship/MyRequests";
+import IncomingRequests from "../pages/mentorship/IncomingRequests";
 import NotFound from "../pages/NotFound";
 
 /**
@@ -21,6 +23,8 @@ import NotFound from "../pages/NotFound";
  * - Guest only: /login, /register (logged-in users go to /dashboard)
  * - Any logged-in user: /dashboard, /alumni, /alumni/:userId
  * - Students and alumni: /profile/edit (admins have no profile)
+ * - Students only: /mentorship/requests
+ * - Alumni only:   /mentorship/incoming
  * - *  → 404 fallback page
  */
 export default function AppRoutes() {
@@ -42,6 +46,14 @@ export default function AppRoutes() {
 
         <Route element={<ProtectedRoute roles={["student", "alumni"]} />}>
           <Route path="profile/edit" element={<EditProfile />} />
+        </Route>
+
+        <Route element={<ProtectedRoute roles={["student"]} />}>
+          <Route path="mentorship/requests" element={<MyRequests />} />
+        </Route>
+
+        <Route element={<ProtectedRoute roles={["alumni"]} />}>
+          <Route path="mentorship/incoming" element={<IncomingRequests />} />
         </Route>
 
         <Route path="*" element={<NotFound />} />

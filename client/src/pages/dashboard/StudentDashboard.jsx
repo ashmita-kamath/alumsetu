@@ -4,6 +4,7 @@ import useApi from "../../hooks/useApi";
 import { Alert } from "../../components/ui";
 import DashboardTile from "./DashboardTile";
 import SuggestedMentors from "../../components/alumni/SuggestedMentors";
+import RequestMentorshipButton from "../../components/mentorship/RequestMentorshipButton";
 
 /**
  * Student home page.
@@ -40,7 +41,9 @@ export default function StudentDashboard() {
         <DashboardTile to="/profile/edit" title="Edit profile" text="Keep your skills and goals up to date." />
       </div>
 
-      <SuggestedMentors />
+      <SuggestedMentors
+        renderAction={(match) => <RequestMentorshipButton alumnus={match.alumni} className="w-full" />}
+      />
     </div>
   );
 }

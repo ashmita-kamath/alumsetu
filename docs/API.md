@@ -159,6 +159,14 @@ Query filters for `GET /alumni` (all optional, combine freely):
 | GET | `/mentorship?status=pending` | student, alumni | | requests I sent (student) or received (alumni), each with the other person's name |
 | PATCH | `/mentorship/:id` | see rules | `{ status }` | `{ request }` |
 
+Each item returned by `GET /mentorship` (and the `request` in POST/PATCH responses):
+```json
+{ "id": 12, "student_id": "uuid", "alumni_id": "uuid", "message": "...", "match_score": 0.58,
+  "status": "pending", "created_at": "...", "responded_at": null,
+  "other_user": { "id": "uuid", "full_name": "Rahul Meena" } }
+```
+`other_user` is the alumnus when a student asks, and the student when an alumnus asks.
+
 Rules:
 - Target must be a verified alumnus available for mentoring, otherwise `403`.
 - `409` if a `pending` or `accepted` request already exists between the same pair.
