@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link, NavLink, useNavigate } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 
 /**
@@ -43,7 +43,6 @@ const GUEST_LINKS = [
 
 export default function Navbar() {
   const { user, logout } = useAuth();
-  const navigate = useNavigate();
   const [menuOpen, setMenuOpen] = useState(false);
 
   const linkClass = ({ isActive }) =>
@@ -54,9 +53,12 @@ export default function Navbar() {
   const closeMenu = () => setMenuOpen(false);
 
   const handleLogout = () => {
-    closeMenu();
     logout();
-    navigate("/");
+    // A full page load (not navigate) to the home page. It also throws
+    // away any data the previous user had loaded into memory. With
+    // navigate(), the protected page's guard would see "no user" first
+    // and send us to /login instead.
+    window.location.assign("/");
   };
 
   const items = user ? LINKS_BY_ROLE[user.role] || [] : GUEST_LINKS;
