@@ -47,6 +47,11 @@ export async function createUser({ role = "student", name, status = "active", ve
   return user;
 }
 
+// Lets a test register users through the API and still have them cleaned up.
+export function track(userId) {
+  created.push(userId);
+}
+
 // Header that makes a request act as this user (development and tests only).
 export const as = (user) => ({ "X-Dev-User-Id": user.id });
 
