@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext";
 
 /**
  * Top navigation bar visible on every page.
@@ -7,14 +8,42 @@ import { Link, NavLink } from "react-router-dom";
  * – Desktop: horizontal row of links.
  * – Mobile (< 768 px): hamburger icon that toggles a vertical menu.
  *
- * NavLink from React Router automatically adds an "active" class
- * when the current URL matches, so we bold the active link.
- *
- * Right now the links are Home, Alumni, Login, Register.
- * Later (Phase 1) we'll swap Login/Register for the user's name
- * once AuthContext is built.
+ * The links depend on who is logged in (from AuthContext):
+ * – Visitor: Home, Login, Register
+ * – Student: Dashboard, Alumni, Forum, My requests
+ * – Alumni:  Dashboard, Alumni, Forum, Requests
+ * – Admin:   Dashboard, Alumni, Forum
+ * Logged-in users also see their name (links to profile) and Log out.
  */
+const LINKS_BY_ROLE = {
+  student: [
+    { to: "/dashboard", label: "Dashboard" },
+    { to: "/alumni", label: "Alumni" },
+    { to: "/forum", label: "Forum" },
+    { to: "/mentorship/requests", label: "My requests" },
+  ],
+  alumni: [
+    { to: "/dashboard", label: "Dashboard" },
+    { to: "/alumni", label: "Alumni" },
+    { to: "/forum", label: "Forum" },
+    { to: "/mentorship/incoming", label: "Requests" },
+  ],
+  admin: [
+    { to: "/dashboard", label: "Dashboard" },
+    { to: "/alumni", label: "Alumni" },
+    { to: "/forum", label: "Forum" },
+  ],
+};
+
+const GUEST_LINKS = [
+  { to: "/", label: "Home", end: true },
+  { to: "/login", label: "Login" },
+  { to: "/register", label: "Register" },
+];
+
 export default function Navbar() {
+  const { user, logout } = useAuth();
+  const navigate = useNavigate();
   const [menuOpen, setMenuOpen] = useState(false);
 
   const linkClass = ({ isActive }) =>
@@ -22,20 +51,43 @@ export default function Navbar() {
       isActive ? "text-orange-dark font-bold" : "text-navy hover:text-orange-dark"
     }`;
 
+  const closeMenu = () => setMenuOpen(false);
+
+  const handleLogout = () => {
+    closeMenu();
+    logout();
+    navigate("/");
+  };
+
+  const items = user ? LINKS_BY_ROLE[user.role] || [] : GUEST_LINKS;
+
   const links = (
     <>
-      <NavLink to="/" end className={linkClass} onClick={() => setMenuOpen(false)}>
-        Home
-      </NavLink>
-      <NavLink to="/alumni" className={linkClass} onClick={() => setMenuOpen(false)}>
-        Alumni
-      </NavLink>
-      <NavLink to="/login" className={linkClass} onClick={() => setMenuOpen(false)}>
-        Login
-      </NavLink>
-      <NavLink to="/register" className={linkClass} onClick={() => setMenuOpen(false)}>
-        Register
-      </NavLink>
+      {items.map((l) => (
+        <NavLink key={l.to} to={l.to} end={l.end} className={linkClass} onClick={closeMenu}>
+          {l.label}
+        </NavLink>
+      ))}
+
+      {user && (
+        <>
+          {/* Admins have no profile to edit */}
+          {user.role !== "admin" ? (
+            <NavLink to="/profile/edit" className={linkClass} onClick={closeMenu}>
+              {user.full_name}
+            </NavLink>
+          ) : (
+            <span className="block py-2 text-sm font-medium text-navy">{user.full_name}</span>
+          )}
+          <button
+            type="button"
+            onClick={handleLogout}
+            className="block py-2 text-left text-sm font-medium text-orange-dark hover:underline"
+          >
+            Log out
+          </button>
+        </>
+      )}
     </>
   );
 
@@ -43,7 +95,11 @@ export default function Navbar() {
     <header className="sticky top-0 z-50 border-b border-gray-200 bg-white/95 backdrop-blur">
       <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3">
         {/* Logo – just styled text, no image */}
-        <Link to="/" className="font-heading text-xl font-bold text-navy">
+        <Link
+          to={user ? "/dashboard" : "/"}
+          className="font-heading text-xl font-bold text-navy"
+          onClick={closeMenu}
+        >
           AlumSetu
         </Link>
 
@@ -55,6 +111,7 @@ export default function Navbar() {
           className="md:hidden rounded-lg p-2 text-navy hover:bg-gray-100"
           onClick={() => setMenuOpen((prev) => !prev)}
           aria-label={menuOpen ? "Close menu" : "Open menu"}
+          aria-expanded={menuOpen}
         >
           {menuOpen ? (
             /* X icon */
