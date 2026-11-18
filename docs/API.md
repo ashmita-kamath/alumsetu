@@ -203,6 +203,11 @@ Each comment in `GET /posts/:id` (and the `comment` in the POST response):
 | PATCH | `/admin/reports/:id` | admin | `{ status: "approved" \| "rejected" }` | `{ report }` |
 
 `approved` means the report is valid, so the post or comment gets `is_flagged = true` (hidden). `rejected` leaves it visible.
+- Send exactly one of `post_id` or `comment_id`; `reason` is 3–200 characters (`400` otherwise).
+- `400` for reporting your own content; `404` if the item does not exist or is already hidden; `409` if you already have a pending report on it.
+- `PATCH` only works on `pending` reports (`409` otherwise).
+- Each item from `GET /admin/reports`: `{ id, reason, status, created_at, reporter: { id, full_name }, target: { type: "post" | "comment", id, post_id, title, body, is_flagged, author: { id, full_name } } }` (`title` is `null` for comments).
+- The moderation filter blocks abusive words (English and Hinglish, including look-alike spellings such as `sh1t`) and posts with more than 5 links. The list is in `server/src/data/blockedWords.js`.
 
 ### Events: owner Ashmita
 | Method | Path | Auth | Body | Returns |
