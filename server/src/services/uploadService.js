@@ -36,6 +36,9 @@ function ensureConfigured() {
   if (!process.env.CLOUDINARY_URL) {
     throw new AppError(500, "INTERNAL_ERROR", "File uploads are not configured on the server");
   }
+  // The SDK reads CLOUDINARY_URL only once, when it is first imported.
+  // config(true) re-reads it, so the current value is always used.
+  cloudinary.config(true);
 }
 
 // Uploads a file held in memory and returns its https URL.
