@@ -5,6 +5,7 @@ import alumniRoutes from "./alumni.js";
 import matchRoutes from "./matches.js";
 import profileRoutes from "./profiles.js";
 import mentorshipRoutes from "./mentorship.js";
+import forumRoutes from "./forum.js";
 
 const router = Router();
 
@@ -14,6 +15,7 @@ router.use("/alumni", alumniRoutes);
 router.use("/matches", matchRoutes);
 router.use("/profiles", profileRoutes);
 router.use("/mentorship", mentorshipRoutes);
+router.use("/", forumRoutes); // /posts, /comments
 
 // More feature routers are mounted here as they are built, for example:
 // router.use("/auth", authRoutes);
