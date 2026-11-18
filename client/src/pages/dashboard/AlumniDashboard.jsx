@@ -3,13 +3,14 @@ import { useAuth } from "../../context/AuthContext";
 import useApi from "../../hooks/useApi";
 import { Alert, Badge } from "../../components/ui";
 import DashboardTile from "./DashboardTile";
+import VerificationCard from "../../components/verification/VerificationCard";
 
 /**
  * Alumni home page.
  *
  * Shows whether the alumnus is verified. Only verified alumni appear
- * in mentor suggestions and can accept mentees, so an unverified
- * alumnus is told why they are not visible to students yet.
+ * in mentor suggestions and can post jobs and events, so an unverified
+ * alumnus gets a card to upload proof (VerificationCard).
  */
 export default function AlumniDashboard() {
   const { user } = useAuth();
@@ -34,12 +35,8 @@ export default function AlumniDashboard() {
         </Alert>
       )}
 
-      {profile && !profile.is_verified && (
-        <Alert variant="info" className="mt-6">
-          Your account is not verified yet. Students will see you in mentor suggestions once an
-          admin approves your alumni proof.
-        </Alert>
-      )}
+      {/* Unverified alumni with a profile can upload proof right here */}
+      {profile && !profile.is_verified && <VerificationCard />}
 
       <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         <DashboardTile to="/mentorship/incoming" title="Mentorship requests" text="Accept or decline students who asked for your help." />
