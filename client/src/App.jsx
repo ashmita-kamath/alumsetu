@@ -1,16 +1,21 @@
 import { BrowserRouter } from "react-router-dom";
+import { AuthProvider } from "./context/AuthContext";
 import AppRoutes from "./routes/AppRoutes";
 
 /**
  * Root Application Component.
  *
- * Wraps the application tree in BrowserRouter to enable HTML5 client-side routing.
+ * – BrowserRouter enables HTML5 client-side routing.
+ * – AuthProvider makes the logged-in user available to every page
+ *   through the useAuth() hook. It sits inside the router so auth
+ *   code can use navigation hooks if needed.
  */
 export default function App() {
   return (
     <BrowserRouter>
-      <AppRoutes />
+      <AuthProvider>
+        <AppRoutes />
+      </AuthProvider>
     </BrowserRouter>
   );
 }
-
