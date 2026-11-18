@@ -268,6 +268,8 @@ PDF, JPG or PNG only, max 5 MB. Stored on Cloudinary; verification files are upl
 | PATCH | `/admin/verifications/:id` | admin | `{ status: "approved" \| "rejected", remarks? }` | `{ request }` |
 
 `approved` sets `alumni_profiles.is_verified = true`. A rejected alumnus can submit again.
+- Each item from `GET /admin/verifications`: `{ id, status, remarks, submitted_at, reviewed_at, reviewed_by_name, alumnus: { id, full_name, email }, profile: { institution, branch, graduation_year, current_company, job_title }, document_link }`. `document_link` is a signed Cloudinary link valid for 10 minutes (`null` if uploads aren't configured); the private file URL itself is never sent.
+- `PATCH` needs `remarks` when rejecting (`400` otherwise), and only works on `pending` requests (`409`).
 - `document_url` must be a private file returned by `POST /uploads` with `kind: "verification"` (`400` otherwise).
 - `400` if the alumnus has no profile yet; `409` if a request is already pending or the alumnus is already verified.
 - `GET /verification/me` returns `{ id, user_id, document_url, status, remarks, submitted_at, reviewed_at }` or `null`.
@@ -278,6 +280,9 @@ PDF, JPG or PNG only, max 5 MB. Stored on Cloudinary; verification files are upl
 | GET | `/admin/stats` | admin | | `{ students, alumni, verified_alumni, pending_verifications, pending_reports, mentorships, events, jobs }` |
 | GET | `/admin/users?role=&status=&search=` | admin | | paginated users |
 | PATCH | `/admin/users/:id` | admin | `{ status: "active" \| "suspended" }` | `{ user }` |
+
+- Each item from `GET /admin/users`: `{ id, email, full_name, role, status, created_at, is_verified }` (`is_verified` is `null` for non-alumni).
+- An admin cannot change their own status (`400`) or suspend another admin (`403`). Suspension takes effect immediately, because every request re-checks the account status.
 
 ---
 
