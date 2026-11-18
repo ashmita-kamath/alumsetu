@@ -1,5 +1,6 @@
 import { Router } from "express";
 import healthRoutes from "./health.js";
+import authRoutes from "./auth.js";
 import lookupRoutes from "./lookups.js";
 import alumniRoutes from "./alumni.js";
 import matchRoutes from "./matches.js";
@@ -12,6 +13,7 @@ import jobRoutes from "./jobs.js";
 const router = Router();
 
 router.use("/health", healthRoutes);
+router.use("/auth", authRoutes);
 router.use("/", lookupRoutes); // /institutions, /skills
 router.use("/alumni", alumniRoutes);
 router.use("/matches", matchRoutes);
@@ -20,8 +22,5 @@ router.use("/mentorship", mentorshipRoutes);
 router.use("/", forumRoutes); // /posts, /comments
 router.use("/", eventRoutes); // /events, /me/registrations
 router.use("/", jobRoutes); // /jobs, /applications
-
-// More feature routers are mounted here as they are built, for example:
-// router.use("/auth", authRoutes);
 
 export default router;
