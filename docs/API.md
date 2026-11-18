@@ -185,6 +185,11 @@ Rules:
 | POST | `/posts/:id/comments` | any | `{ body }` | `201 { comment }` |
 | DELETE | `/comments/:id` | author, admin | | `204` |
 
+Each comment in `GET /posts/:id` (and the `comment` in the POST response):
+```json
+{ "id": 7, "post_id": 3, "body": "...", "author": { "id": "uuid", "full_name": "Asha Rao", "role": "student" }, "created_at": "..." }
+```
+
 - `category` is one of `general`, `careers`, `academics`, `placements`.
 - Text goes through the moderation filter first; a blocked post returns `422 CONTENT_BLOCKED`.
 - Posts and comments with `is_flagged = true` are hidden from everyone except admins.

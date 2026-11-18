@@ -10,6 +10,9 @@ import Dashboard from "../pages/dashboard/Dashboard";
 import EditProfile from "../pages/EditProfile";
 import MyRequests from "../pages/mentorship/MyRequests";
 import IncomingRequests from "../pages/mentorship/IncomingRequests";
+import ForumList from "../pages/forum/ForumList";
+import NewPost from "../pages/forum/NewPost";
+import PostDetail from "../pages/forum/PostDetail";
 import NotFound from "../pages/NotFound";
 
 /**
@@ -21,7 +24,7 @@ import NotFound from "../pages/NotFound";
  * Route groups:
  * - Public:     / (landing)
  * - Guest only: /login, /register (logged-in users go to /dashboard)
- * - Any logged-in user: /dashboard, /alumni, /alumni/:userId
+ * - Any logged-in user: /dashboard, /alumni, /alumni/:userId, /forum, /forum/new, /forum/:id
  * - Students and alumni: /profile/edit (admins have no profile)
  * - Students only: /mentorship/requests
  * - Alumni only:   /mentorship/incoming
@@ -42,6 +45,9 @@ export default function AppRoutes() {
           <Route path="dashboard" element={<Dashboard />} />
           <Route path="alumni" element={<AlumniDirectory />} />
           <Route path="alumni/:userId" element={<AlumniProfile />} />
+          <Route path="forum" element={<ForumList />} />
+          <Route path="forum/new" element={<NewPost />} />
+          <Route path="forum/:id" element={<PostDetail />} />
         </Route>
 
         <Route element={<ProtectedRoute roles={["student", "alumni"]} />}>
