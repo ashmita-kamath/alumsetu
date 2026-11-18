@@ -10,6 +10,7 @@ import forumRoutes from "./forum.js";
 import eventRoutes from "./events.js";
 import jobRoutes from "./jobs.js";
 import uploadRoutes from "./uploads.js";
+import verificationRoutes from "./verification.js";
 
 const router = Router();
 
@@ -24,5 +25,6 @@ router.use("/", forumRoutes); // /posts, /comments
 router.use("/", eventRoutes); // /events, /me/registrations
 router.use("/", jobRoutes); // /jobs, /applications
 router.use("/uploads", uploadRoutes);
+router.use("/verification", verificationRoutes);
 
 export default router;
