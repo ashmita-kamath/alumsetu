@@ -80,7 +80,7 @@ export default function JobsList() {
 
       <div className="mt-6 grid gap-3 rounded-xl border border-gray-100 bg-card p-4 sm:grid-cols-2 lg:grid-cols-4">
         <Input id="job-search" type="search" label="Search" placeholder="Title or company" value={searchText} onChange={(e) => setSearchText(e.target.value)} />
-        <Input id="job-location" label="Location" placeholder="e.g. Jaipur" value={locationText} onChange={(e) => setLocationText(e.target.value)} />
+        <Input id="job-location" label="Location" placeholder="e.g. Bengaluru" value={locationText} onChange={(e) => setLocationText(e.target.value)} />
         <Select
           id="job-type"
           label="Type"
