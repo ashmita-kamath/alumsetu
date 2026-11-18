@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import api, { uploadFile } from "../../services/api";
 import { Alert, Button, Modal } from "../ui";
 
@@ -19,6 +19,13 @@ export default function ApplyModal({ job, open, onClose, onApplied }) {
   const [file, setFile] = useState(null);
   const [error, setError] = useState("");
   const [step, setStep] = useState(""); // "", "uploading", "applying"
+  const inputRef = useRef(null);
+
+  // A file input can't be emptied by the user, so we offer a Remove button
+  const removeFile = () => {
+    setFile(null);
+    if (inputRef.current) inputRef.current.value = "";
+  };
 
   const close = () => {
     if (step) return; // don't close in the middle of sending
@@ -70,12 +77,18 @@ export default function ApplyModal({ job, open, onClose, onApplied }) {
             Resume (PDF, JPG or PNG, up to 5 MB)
           </label>
           <input
+            ref={inputRef}
             id="resume"
             type="file"
             accept={ACCEPT}
             onChange={chooseFile}
             className="text-sm text-navy file:mr-3 file:rounded-lg file:border-0 file:bg-navy file:px-4 file:py-2 file:text-sm file:font-semibold file:text-white hover:file:bg-navy/90"
           />
+          {file && (
+            <button type="button" onClick={removeFile} className="self-start text-xs font-semibold text-orange-dark hover:underline">
+              Remove resume and apply without one
+            </button>
+          )}
         </div>
         <div className="flex flex-col-reverse gap-2 sm:flex-row sm:justify-end">
           <Button variant="secondary" onClick={close} disabled={Boolean(step)}>
