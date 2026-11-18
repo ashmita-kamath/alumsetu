@@ -21,6 +21,10 @@ import JobsList from "../pages/jobs/JobsList";
 import JobDetail from "../pages/jobs/JobDetail";
 import PostJob from "../pages/jobs/PostJob";
 import MyApplications from "../pages/jobs/MyApplications";
+import Verifications from "../pages/admin/Verifications";
+import Reports from "../pages/admin/Reports";
+import Users from "../pages/admin/Users";
+import Institutions from "../pages/admin/Institutions";
 import NotFound from "../pages/NotFound";
 
 /**
@@ -39,6 +43,7 @@ import NotFound from "../pages/NotFound";
  * - Students and alumni: /profile/edit (admins have no profile)
  * - Students only: /mentorship/requests, /applications
  * - Alumni only:   /mentorship/incoming, /jobs/new (the page also checks verification)
+ * - Admins only: /admin/verifications, /admin/reports, /admin/users, /admin/institutions
  * - *  → 404 fallback page
  */
 export default function AppRoutes() {
@@ -85,6 +90,13 @@ export default function AppRoutes() {
         <Route element={<ProtectedRoute roles={["alumni"]} />}>
           <Route path="mentorship/incoming" element={<IncomingRequests />} />
           <Route path="jobs/new" element={<PostJob />} />
+        </Route>
+
+        <Route element={<ProtectedRoute roles={["admin"]} />}>
+          <Route path="admin/verifications" element={<Verifications />} />
+          <Route path="admin/reports" element={<Reports />} />
+          <Route path="admin/users" element={<Users />} />
+          <Route path="admin/institutions" element={<Institutions />} />
         </Route>
 
         <Route path="*" element={<NotFound />} />

@@ -12,7 +12,8 @@ import { useAuth } from "../../context/AuthContext";
  * – Visitor: Home, Login, Register
  * – Student: Dashboard, Alumni, Forum, Events, Jobs, My requests
  * – Alumni:  Dashboard, Alumni, Forum, Events, Jobs, Requests
- * – Admin:   Dashboard, Alumni, Forum, Events, Jobs
+ * – Admin:   Dashboard, Verifications, Reports, Users, Colleges, Forum
+ *            (alumni, events and jobs are linked from the admin dashboard)
  * Logged-in users also see their name (links to profile) and Log out.
  */
 const LINKS_BY_ROLE = {
@@ -34,10 +35,11 @@ const LINKS_BY_ROLE = {
   ],
   admin: [
     { to: "/dashboard", label: "Dashboard" },
-    { to: "/alumni", label: "Alumni" },
+    { to: "/admin/verifications", label: "Verifications" },
+    { to: "/admin/reports", label: "Reports" },
+    { to: "/admin/users", label: "Users" },
+    { to: "/admin/institutions", label: "Colleges" },
     { to: "/forum", label: "Forum" },
-    { to: "/events", label: "Events" },
-    { to: "/jobs", label: "Jobs" },
   ],
 };
 
