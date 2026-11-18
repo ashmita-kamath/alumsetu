@@ -1,3 +1,4 @@
+import { useRef } from "react";
 import { Navigate, Outlet, useLocation } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import PageLoader from "../components/ui/PageLoader";
@@ -37,9 +38,19 @@ export default function ProtectedRoute({ roles }) {
 /**
  * The opposite: pages like /login and /register that a logged-in
  * user should not see. They are sent to their dashboard instead.
+ *
+ * We only redirect users who were ALREADY logged in when they opened
+ * the page. Someone who logs in or registers on this page becomes a
+ * user too, but the page itself decides where to send them next
+ * (e.g. Register → profile form); redirecting here would override it.
  */
 export function GuestRoute() {
   const { user, loading } = useAuth();
+  const wasLoggedIn = useRef(null);
+
   if (loading) return <PageLoader />;
-  return user ? <Navigate to="/dashboard" replace /> : <Outlet />;
+  // Remember the state from the first render after loading finished
+  if (wasLoggedIn.current === null) wasLoggedIn.current = Boolean(user);
+
+  return wasLoggedIn.current ? <Navigate to="/dashboard" replace /> : <Outlet />;
 }
