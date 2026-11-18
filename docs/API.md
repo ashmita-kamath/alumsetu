@@ -250,6 +250,9 @@ Each comment in `GET /posts/:id` (and the `comment` in the POST response):
 | POST | `/uploads` | any | multipart: `file`, `kind: "verification" \| "resume"` | `201 { url }` |
 
 PDF, JPG or PNG only, max 5 MB. Stored on Cloudinary; verification files are uploaded as private (authenticated) assets and admins get a time-limited signed link.
+- `kind: "verification"` is for alumni only; `kind: "resume"` is for students only (`403` otherwise).
+- The file type is checked from the file's content, not its name. A renamed file is rejected with `400`.
+- `400` if the file is missing or larger than 5 MB.
 
 ### Alumni verification: owner Dhanishtha
 | Method | Path | Auth | Body | Returns |
@@ -260,6 +263,9 @@ PDF, JPG or PNG only, max 5 MB. Stored on Cloudinary; verification files are upl
 | PATCH | `/admin/verifications/:id` | admin | `{ status: "approved" \| "rejected", remarks? }` | `{ request }` |
 
 `approved` sets `alumni_profiles.is_verified = true`. A rejected alumnus can submit again.
+- `document_url` must be a private file returned by `POST /uploads` with `kind: "verification"` (`400` otherwise).
+- `400` if the alumnus has no profile yet; `409` if a request is already pending or the alumnus is already verified.
+- `GET /verification/me` returns `{ id, user_id, document_url, status, remarks, submitted_at, reviewed_at }` or `null`.
 
 ### Admin: owner Dhanishtha
 | Method | Path | Auth | Body | Returns |
