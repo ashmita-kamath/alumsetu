@@ -6,13 +6,13 @@ import { useAuth } from "../../context/AuthContext";
  * Top navigation bar visible on every page.
  *
  * – Desktop: horizontal row of links.
- * – Mobile (< 768 px): hamburger icon that toggles a vertical menu.
+ * – Phones and tablets (< 1024 px): hamburger icon that toggles a vertical menu.
  *
  * The links depend on who is logged in (from AuthContext):
  * – Visitor: Home, Login, Register
- * – Student: Dashboard, Alumni, Forum, My requests
- * – Alumni:  Dashboard, Alumni, Forum, Requests
- * – Admin:   Dashboard, Alumni, Forum
+ * – Student: Dashboard, Alumni, Forum, Events, My requests
+ * – Alumni:  Dashboard, Alumni, Forum, Events, Requests
+ * – Admin:   Dashboard, Alumni, Forum, Events
  * Logged-in users also see their name (links to profile) and Log out.
  */
 const LINKS_BY_ROLE = {
@@ -20,18 +20,21 @@ const LINKS_BY_ROLE = {
     { to: "/dashboard", label: "Dashboard" },
     { to: "/alumni", label: "Alumni" },
     { to: "/forum", label: "Forum" },
+    { to: "/events", label: "Events" },
     { to: "/mentorship/requests", label: "My requests" },
   ],
   alumni: [
     { to: "/dashboard", label: "Dashboard" },
     { to: "/alumni", label: "Alumni" },
     { to: "/forum", label: "Forum" },
+    { to: "/events", label: "Events" },
     { to: "/mentorship/incoming", label: "Requests" },
   ],
   admin: [
     { to: "/dashboard", label: "Dashboard" },
     { to: "/alumni", label: "Alumni" },
     { to: "/forum", label: "Forum" },
+    { to: "/events", label: "Events" },
   ],
 };
 
@@ -106,11 +109,11 @@ export default function Navbar() {
         </Link>
 
         {/* Desktop nav */}
-        <nav className="hidden items-center gap-6 md:flex">{links}</nav>
+        <nav className="hidden items-center gap-6 lg:flex">{links}</nav>
 
         {/* Mobile hamburger */}
         <button
-          className="md:hidden rounded-lg p-2 text-navy hover:bg-gray-100"
+          className="lg:hidden rounded-lg p-2 text-navy hover:bg-gray-100"
           onClick={() => setMenuOpen((prev) => !prev)}
           aria-label={menuOpen ? "Close menu" : "Open menu"}
           aria-expanded={menuOpen}
@@ -131,7 +134,7 @@ export default function Navbar() {
 
       {/* Mobile menu dropdown */}
       {menuOpen && (
-        <nav className="border-t border-gray-100 px-4 pb-4 md:hidden">{links}</nav>
+        <nav className="border-t border-gray-100 px-4 pb-4 lg:hidden">{links}</nav>
       )}
     </header>
   );

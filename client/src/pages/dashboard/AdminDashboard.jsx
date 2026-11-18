@@ -15,6 +15,7 @@ export default function AdminDashboard() {
 
       <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         <DashboardTile to="/alumni" title="Alumni directory" text="Browse all alumni accounts." />
+        <DashboardTile to="/events" title="Events" text="See and manage all events." />
         <DashboardTile to="/forum" title="Forum" text="Read and moderate forum discussions." />
       </div>
     </div>

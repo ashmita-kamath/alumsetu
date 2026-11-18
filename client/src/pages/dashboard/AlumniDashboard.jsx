@@ -41,9 +41,10 @@ export default function AlumniDashboard() {
         </Alert>
       )}
 
-      <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         <DashboardTile to="/mentorship/incoming" title="Mentorship requests" text="Accept or decline students who asked for your help." />
         <DashboardTile to="/alumni" title="Alumni directory" text="Reconnect with fellow alumni." />
+        <DashboardTile to="/events" title="Events" text="Host or join meetups and webinars." />
         <DashboardTile to="/forum" title="Forum" text="Answer student questions and share advice." />
         <DashboardTile to="/profile/edit" title="Edit profile" text="Update your company, role and mentoring status." />
       </div>

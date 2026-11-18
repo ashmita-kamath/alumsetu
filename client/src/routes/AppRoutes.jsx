@@ -13,6 +13,10 @@ import IncomingRequests from "../pages/mentorship/IncomingRequests";
 import ForumList from "../pages/forum/ForumList";
 import NewPost from "../pages/forum/NewPost";
 import PostDetail from "../pages/forum/PostDetail";
+import EventsList from "../pages/events/EventsList";
+import EventDetail from "../pages/events/EventDetail";
+import CreateEvent from "../pages/events/CreateEvent";
+import MyRegistrations from "../pages/events/MyRegistrations";
 import NotFound from "../pages/NotFound";
 
 /**
@@ -24,7 +28,10 @@ import NotFound from "../pages/NotFound";
  * Route groups:
  * - Public:     / (landing)
  * - Guest only: /login, /register (logged-in users go to /dashboard)
- * - Any logged-in user: /dashboard, /alumni, /alumni/:userId, /forum, /forum/new, /forum/:id
+ * - Any logged-in user: /dashboard, /alumni, /alumni/:userId, /forum, /forum/new, /forum/:id,
+ *   /events, /events/:id
+ * - Alumni and admins: /events/new (the page also checks the alumnus is verified)
+ * - Students and alumni: /events/my
  * - Students and alumni: /profile/edit (admins have no profile)
  * - Students only: /mentorship/requests
  * - Alumni only:   /mentorship/incoming
@@ -48,10 +55,20 @@ export default function AppRoutes() {
           <Route path="forum" element={<ForumList />} />
           <Route path="forum/new" element={<NewPost />} />
           <Route path="forum/:id" element={<PostDetail />} />
+          <Route path="events" element={<EventsList />} />
+          <Route path="events/:id" element={<EventDetail />} />
         </Route>
 
         <Route element={<ProtectedRoute roles={["student", "alumni"]} />}>
           <Route path="profile/edit" element={<EditProfile />} />
+        </Route>
+
+        <Route element={<ProtectedRoute roles={["alumni", "admin"]} />}>
+          <Route path="events/new" element={<CreateEvent />} />
+        </Route>
+
+        <Route element={<ProtectedRoute roles={["student", "alumni"]} />}>
+          <Route path="events/my" element={<MyRegistrations />} />
         </Route>
 
         <Route element={<ProtectedRoute roles={["student"]} />}>
