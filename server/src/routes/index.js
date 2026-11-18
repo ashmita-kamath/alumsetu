@@ -9,6 +9,7 @@ import mentorshipRoutes from "./mentorship.js";
 import forumRoutes from "./forum.js";
 import eventRoutes from "./events.js";
 import jobRoutes from "./jobs.js";
+import uploadRoutes from "./uploads.js";
 
 const router = Router();
 
@@ -22,5 +23,6 @@ router.use("/mentorship", mentorshipRoutes);
 router.use("/", forumRoutes); // /posts, /comments
 router.use("/", eventRoutes); // /events, /me/registrations
 router.use("/", jobRoutes); // /jobs, /applications
+router.use("/uploads", uploadRoutes);
 
 export default router;
