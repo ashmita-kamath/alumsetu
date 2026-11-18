@@ -11,6 +11,7 @@ import eventRoutes from "./events.js";
 import jobRoutes from "./jobs.js";
 import uploadRoutes from "./uploads.js";
 import verificationRoutes from "./verification.js";
+import reportRoutes from "./reports.js";
 
 const router = Router();
 
@@ -26,5 +27,6 @@ router.use("/", eventRoutes); // /events, /me/registrations
 router.use("/", jobRoutes); // /jobs, /applications
 router.use("/uploads", uploadRoutes);
 router.use("/verification", verificationRoutes);
+router.use("/", reportRoutes); // /reports, /admin/reports
 
 export default router;
