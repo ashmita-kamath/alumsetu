@@ -59,6 +59,8 @@ export const as = (user) => ({ "X-Dev-User-Id": user.id });
 export async function cleanup() {
   if (created.length) {
     await query("DELETE FROM events WHERE organizer_id = ANY($1::uuid[])", [created]);
+    // reviewed_by has no ON DELETE rule, so un-link test admins from reviews first
+    await query("UPDATE verification_requests SET reviewed_by = NULL WHERE reviewed_by = ANY($1::uuid[])", [created]);
     await query("DELETE FROM users WHERE id = ANY($1::uuid[])", [created]);
   }
   await pool.end();
