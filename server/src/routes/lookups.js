@@ -1,6 +1,9 @@
 import { Router } from "express";
 import { asyncHandler } from "../utils/http.js";
-import { getInstitutions, getSkills } from "../controllers/lookupController.js";
+import validate from "../middleware/validate.js";
+import { requireUser, allowRoles } from "../middleware/currentUser.js";
+import { institutionSchema, skillSchema } from "../validators/lookupSchemas.js";
+import { getInstitutions, getSkills, addInstitution, addSkill } from "../controllers/lookupController.js";
 
 const router = Router();
 
@@ -8,8 +11,7 @@ const router = Router();
 router.get("/institutions", asyncHandler(getInstitutions));
 router.get("/skills", asyncHandler(getSkills));
 
-// TODO (after feat/auth-jwt is merged):
-// router.post("/institutions", requireAuth, requireRole("admin"), asyncHandler(createInstitution));
-// router.post("/skills", requireAuth, asyncHandler(createSkill));
+router.post("/institutions", requireUser, allowRoles("admin"), validate({ body: institutionSchema }), asyncHandler(addInstitution));
+router.post("/skills", requireUser, validate({ body: skillSchema }), asyncHandler(addSkill));
 
 export default router;
