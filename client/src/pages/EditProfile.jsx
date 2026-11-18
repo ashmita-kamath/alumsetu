@@ -169,7 +169,7 @@ export default function EditProfile() {
 
       {location.state?.welcome && !message.text && (
         <Alert variant="info" className="mt-6">
-          Welcome to AlumSetu! Fill in your profile to get started.
+          Next step: fill in your profile so students and alumni can find you, and so we can suggest mentors.
         </Alert>
       )}
       <Alert variant={message.type || "error"} className="mt-6">
