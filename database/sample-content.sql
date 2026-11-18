@@ -12,9 +12,9 @@ FROM (VALUES
   ('priya.sharma@sample.alumsetu.dev', 'Product Company Interview Prep',
    'DSA, system design basics and mock interview tips from a Flipkart engineer.',
    'career_session', 'online', 'https://meet.example.com/interview-prep', interval '9 days', 60),
-  ('vikram.singh@sample.alumsetu.dev', 'Jaipur Alumni Meetup',
-   'An evening meetup for alumni and final-year students in Jaipur.',
-   'meetup', 'offline', 'Jawahar Kala Kendra, Jaipur', interval '14 days', 40),
+  ('vikram.singh@sample.alumsetu.dev', 'Bengaluru Alumni Meetup',
+   'An evening meetup for alumni and final-year students in Bengaluru.',
+   'meetup', 'offline', 'Rangoli Metro Art Center, MG Road, Bengaluru', interval '14 days', 40),
   ('arjun.rathore@sample.alumsetu.dev', 'Careers in VLSI: Panel Discussion',
    'Three alumni from semiconductor companies on getting into chip design.',
    'panel', 'online', 'https://meet.example.com/vlsi-panel', interval '-10 days', NULL)
@@ -26,7 +26,7 @@ WHERE NOT EXISTS (SELECT 1 FROM events e WHERE e.title = v.title);
 INSERT INTO jobs (posted_by, title, company, type, location, description, deadline)
 SELECT u.id, v.title, v.company, v.type::job_type, v.location, v.description, CURRENT_DATE + v.days_left
 FROM (VALUES
-  ('rahul.meena@sample.alumsetu.dev', 'Data Engineering Intern', 'Infosys', 'internship', 'Jaipur',
+  ('rahul.meena@sample.alumsetu.dev', 'Data Engineering Intern', 'Infosys', 'internship', 'Bengaluru',
    'Six-month internship working with SQL, Python and data pipelines.', 20),
   ('priya.sharma@sample.alumsetu.dev', 'SDE-1 Referral', 'Flipkart', 'referral', 'Bengaluru',
    'I can refer 2023-2025 graduates with strong DSA. Share your resume link.', 15),

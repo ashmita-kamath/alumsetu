@@ -10,21 +10,21 @@ CREATE TABLE IF NOT EXISTS _sample_alumni (
 TRUNCATE _sample_alumni;
 
 INSERT INTO _sample_alumni VALUES
-  ('rahul.meena@sample.alumsetu.dev', 'Rahul Meena', 'Government Engineering College, Ajmer', 'CSE', 2021,
-   'Infosys', 'Data Engineer', 'IT Services', 'Jaipur', TRUE, TRUE, ARRAY['Python','SQL','PostgreSQL','Data Analysis']),
-  ('priya.sharma@sample.alumsetu.dev', 'Priya Sharma', 'MBM University (MBM Engineering College)', 'CSE', 2019,
+  ('rahul.meena@sample.alumsetu.dev', 'Rahul Meena', 'R. V. College of Engineering (RVCE)', 'CSE', 2021,
+   'Infosys', 'Data Engineer', 'IT Services', 'Bengaluru', TRUE, TRUE, ARRAY['Python','SQL','PostgreSQL','Data Analysis']),
+  ('priya.sharma@sample.alumsetu.dev', 'Priya Sharma', 'B.M.S. College of Engineering (BMSCE)', 'CSE', 2019,
    'Flipkart', 'Senior Software Engineer', 'E-commerce', 'Bengaluru', TRUE, TRUE, ARRAY['Java','Data Structures & Algorithms','Cloud Computing','AWS']),
-  ('arjun.rathore@sample.alumsetu.dev', 'Arjun Rathore', 'University College of Engineering, Kota (RTU)', 'ECE', 2020,
+  ('arjun.rathore@sample.alumsetu.dev', 'Arjun Rathore', 'PES University', 'ECE', 2020,
    'Texas Instruments', 'Hardware Design Engineer', 'Semiconductors', 'Bengaluru', TRUE, TRUE, ARRAY['VLSI','Embedded Systems','C++','MATLAB']),
-  ('neha.choudhary@sample.alumsetu.dev', 'Neha Choudhary', 'Government Mahila Engineering College, Ajmer', 'IT', 2022,
+  ('neha.choudhary@sample.alumsetu.dev', 'Neha Choudhary', 'M. S. Ramaiah Institute of Technology (MSRIT)', 'IT', 2022,
    'Zomato', 'Frontend Developer', 'Food Tech', 'Gurugram', TRUE, TRUE, ARRAY['JavaScript','React','HTML/CSS','UI/UX Design']),
-  ('vikram.singh@sample.alumsetu.dev', 'Vikram Singh', 'Government Engineering College, Bikaner', 'Civil', 2018,
-   'L&T Construction', 'Project Engineer', 'Infrastructure', 'Jaipur', TRUE, FALSE, ARRAY['AutoCAD','Civil Engineering Design','Project Management']),
-  ('ananya.jain@sample.alumsetu.dev', 'Ananya Jain', 'College of Technology and Engineering, Udaipur', 'CSE', 2023,
+  ('vikram.singh@sample.alumsetu.dev', 'Vikram Singh', 'University Visvesvaraya College of Engineering (UVCE)', 'Civil', 2018,
+   'L&T Construction', 'Project Engineer', 'Infrastructure', 'Bengaluru', TRUE, FALSE, ARRAY['AutoCAD','Civil Engineering Design','Project Management']),
+  ('ananya.jain@sample.alumsetu.dev', 'Ananya Jain', 'Bangalore Institute of Technology (BIT)', 'CSE', 2023,
    'Amazon', 'Machine Learning Engineer', 'E-commerce', 'Hyderabad', TRUE, TRUE, ARRAY['Python','Machine Learning','Deep Learning','AWS']),
-  ('mohit.gurjar@sample.alumsetu.dev', 'Mohit Gurjar', 'Government Polytechnic College, Jaipur', 'Mechanical', 2017,
+  ('mohit.gurjar@sample.alumsetu.dev', 'Mohit Gurjar', 'Sri Krishnarajendra Silver Jubilee Technological Institute (SKSJTI)', 'Mechanical', 2017,
    'Maruti Suzuki', 'Production Supervisor', 'Automotive', 'Manesar', FALSE, TRUE, ARRAY['SolidWorks','AutoCAD','Project Management']),
-  ('sana.khan@sample.alumsetu.dev', 'Sana Khan', 'Government Engineering College, Bharatpur', 'CSE', 2021,
+  ('sana.khan@sample.alumsetu.dev', 'Sana Khan', 'Dayananda Sagar College of Engineering (DSCE)', 'CSE', 2021,
    'Razorpay', 'Backend Engineer', 'Fintech', 'Bengaluru', FALSE, TRUE, ARRAY['Node.js','Express','PostgreSQL','Docker']);
 
 INSERT INTO users (email, password_hash, full_name, role, status)

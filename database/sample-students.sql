@@ -9,11 +9,11 @@ CREATE TABLE IF NOT EXISTS _sample_students (
 TRUNCATE _sample_students;
 
 INSERT INTO _sample_students VALUES
-  ('kavya.student@sample.alumsetu.dev', 'Kavya Soni', 'Government Engineering College, Ajmer', 'CSE', 2024, 2028,
+  ('kavya.student@sample.alumsetu.dev', 'Kavya Soni', 'R. V. College of Engineering (RVCE)', 'CSE', 2024, 2028,
    'I want to become a data engineer', ARRAY['Python','SQL','React']),
-  ('dev.student@sample.alumsetu.dev', 'Dev Parihar', 'University College of Engineering, Kota (RTU)', 'ECE', 2023, 2027,
+  ('dev.student@sample.alumsetu.dev', 'Dev Parihar', 'PES University', 'ECE', 2023, 2027,
    'Chip design and embedded hardware', ARRAY['C++','MATLAB']),
-  ('isha.student@sample.alumsetu.dev', 'Isha Bhati', 'MBM University (MBM Engineering College)', 'CSE', 2025, 2029,
+  ('isha.student@sample.alumsetu.dev', 'Isha Bhati', 'B.M.S. College of Engineering (BMSCE)', 'CSE', 2025, 2029,
    NULL, ARRAY[]::TEXT[]);
 
 INSERT INTO users (email, password_hash, full_name, role, status)
