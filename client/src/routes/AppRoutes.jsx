@@ -17,6 +17,10 @@ import EventsList from "../pages/events/EventsList";
 import EventDetail from "../pages/events/EventDetail";
 import CreateEvent from "../pages/events/CreateEvent";
 import MyRegistrations from "../pages/events/MyRegistrations";
+import JobsList from "../pages/jobs/JobsList";
+import JobDetail from "../pages/jobs/JobDetail";
+import PostJob from "../pages/jobs/PostJob";
+import MyApplications from "../pages/jobs/MyApplications";
 import NotFound from "../pages/NotFound";
 
 /**
@@ -29,12 +33,12 @@ import NotFound from "../pages/NotFound";
  * - Public:     / (landing)
  * - Guest only: /login, /register (logged-in users go to /dashboard)
  * - Any logged-in user: /dashboard, /alumni, /alumni/:userId, /forum, /forum/new, /forum/:id,
- *   /events, /events/:id
+ *   /events, /events/:id, /jobs, /jobs/:id
  * - Alumni and admins: /events/new (the page also checks the alumnus is verified)
  * - Students and alumni: /events/my
  * - Students and alumni: /profile/edit (admins have no profile)
- * - Students only: /mentorship/requests
- * - Alumni only:   /mentorship/incoming
+ * - Students only: /mentorship/requests, /applications
+ * - Alumni only:   /mentorship/incoming, /jobs/new (the page also checks verification)
  * - *  → 404 fallback page
  */
 export default function AppRoutes() {
@@ -57,6 +61,8 @@ export default function AppRoutes() {
           <Route path="forum/:id" element={<PostDetail />} />
           <Route path="events" element={<EventsList />} />
           <Route path="events/:id" element={<EventDetail />} />
+          <Route path="jobs" element={<JobsList />} />
+          <Route path="jobs/:id" element={<JobDetail />} />
         </Route>
 
         <Route element={<ProtectedRoute roles={["student", "alumni"]} />}>
@@ -73,10 +79,12 @@ export default function AppRoutes() {
 
         <Route element={<ProtectedRoute roles={["student"]} />}>
           <Route path="mentorship/requests" element={<MyRequests />} />
+          <Route path="applications" element={<MyApplications />} />
         </Route>
 
         <Route element={<ProtectedRoute roles={["alumni"]} />}>
           <Route path="mentorship/incoming" element={<IncomingRequests />} />
+          <Route path="jobs/new" element={<PostJob />} />
         </Route>
 
         <Route path="*" element={<NotFound />} />

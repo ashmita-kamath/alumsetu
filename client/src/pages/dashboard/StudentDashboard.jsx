@@ -38,6 +38,7 @@ export default function StudentDashboard() {
         <DashboardTile to="/alumni" title="Alumni directory" text="Search alumni by college, branch, company or skill." />
         <DashboardTile to="/mentorship/requests" title="My requests" text="Track the mentorship requests you have sent." />
         <DashboardTile to="/events" title="Events" text="Join webinars, meetups and career sessions." />
+        <DashboardTile to="/jobs" title="Jobs" text="Apply for jobs, internships and referrals." />
         <DashboardTile to="/forum" title="Forum" text="Ask questions about careers, academics and placements." />
         <DashboardTile to="/profile/edit" title="Edit profile" text="Keep your skills and goals up to date." />
       </div>

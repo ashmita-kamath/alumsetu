@@ -10,9 +10,9 @@ import { useAuth } from "../../context/AuthContext";
  *
  * The links depend on who is logged in (from AuthContext):
  * – Visitor: Home, Login, Register
- * – Student: Dashboard, Alumni, Forum, Events, My requests
- * – Alumni:  Dashboard, Alumni, Forum, Events, Requests
- * – Admin:   Dashboard, Alumni, Forum, Events
+ * – Student: Dashboard, Alumni, Forum, Events, Jobs, My requests
+ * – Alumni:  Dashboard, Alumni, Forum, Events, Jobs, Requests
+ * – Admin:   Dashboard, Alumni, Forum, Events, Jobs
  * Logged-in users also see their name (links to profile) and Log out.
  */
 const LINKS_BY_ROLE = {
@@ -21,6 +21,7 @@ const LINKS_BY_ROLE = {
     { to: "/alumni", label: "Alumni" },
     { to: "/forum", label: "Forum" },
     { to: "/events", label: "Events" },
+    { to: "/jobs", label: "Jobs" },
     { to: "/mentorship/requests", label: "My requests" },
   ],
   alumni: [
@@ -28,6 +29,7 @@ const LINKS_BY_ROLE = {
     { to: "/alumni", label: "Alumni" },
     { to: "/forum", label: "Forum" },
     { to: "/events", label: "Events" },
+    { to: "/jobs", label: "Jobs" },
     { to: "/mentorship/incoming", label: "Requests" },
   ],
   admin: [
@@ -35,6 +37,7 @@ const LINKS_BY_ROLE = {
     { to: "/alumni", label: "Alumni" },
     { to: "/forum", label: "Forum" },
     { to: "/events", label: "Events" },
+    { to: "/jobs", label: "Jobs" },
   ],
 };
 

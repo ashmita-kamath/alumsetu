@@ -45,6 +45,7 @@ export default function AlumniDashboard() {
         <DashboardTile to="/mentorship/incoming" title="Mentorship requests" text="Accept or decline students who asked for your help." />
         <DashboardTile to="/alumni" title="Alumni directory" text="Reconnect with fellow alumni." />
         <DashboardTile to="/events" title="Events" text="Host or join meetups and webinars." />
+        <DashboardTile to="/jobs" title="Jobs" text="Share openings and review applicants." />
         <DashboardTile to="/forum" title="Forum" text="Answer student questions and share advice." />
         <DashboardTile to="/profile/edit" title="Edit profile" text="Update your company, role and mentoring status." />
       </div>
