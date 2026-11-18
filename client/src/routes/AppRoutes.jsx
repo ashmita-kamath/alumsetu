@@ -7,6 +7,7 @@ import AlumniProfile from "../pages/AlumniProfile";
 import Login from "../pages/Login";
 import Register from "../pages/Register";
 import Dashboard from "../pages/dashboard/Dashboard";
+import EditProfile from "../pages/EditProfile";
 import NotFound from "../pages/NotFound";
 
 /**
@@ -19,6 +20,7 @@ import NotFound from "../pages/NotFound";
  * - Public:     / (landing)
  * - Guest only: /login, /register (logged-in users go to /dashboard)
  * - Any logged-in user: /dashboard, /alumni, /alumni/:userId
+ * - Students and alumni: /profile/edit (admins have no profile)
  * - *  → 404 fallback page
  */
 export default function AppRoutes() {
@@ -36,6 +38,10 @@ export default function AppRoutes() {
           <Route path="dashboard" element={<Dashboard />} />
           <Route path="alumni" element={<AlumniDirectory />} />
           <Route path="alumni/:userId" element={<AlumniProfile />} />
+        </Route>
+
+        <Route element={<ProtectedRoute roles={["student", "alumni"]} />}>
+          <Route path="profile/edit" element={<EditProfile />} />
         </Route>
 
         <Route path="*" element={<NotFound />} />
