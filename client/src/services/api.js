@@ -27,8 +27,11 @@
 
 const BASE_URL = import.meta.env.VITE_API_URL;
 
+// One place for the localStorage key so AuthContext and this file agree.
+export const TOKEN_KEY = "alumsetu_token";
+
 async function request(endpoint, { method = "GET", body, headers = {} } = {}) {
-  const token = localStorage.getItem("alumsetu_token");
+  const token = localStorage.getItem(TOKEN_KEY);
 
   const config = {
     method,
@@ -48,25 +51,69 @@ async function request(endpoint, { method = "GET", body, headers = {} } = {}) {
     config.body = JSON.stringify(body);
   }
 
-  const response = await fetch(`${BASE_URL}${endpoint}`, config);
-
-  // 204 No Content has no body to parse
-  if (response.status === 204) {
-    return null;
+  let response;
+  try {
+    response = await fetch(`${BASE_URL}${endpoint}`, config);
+  } catch {
+    // fetch only throws when the request never got a response
+    // (server down, no internet, CORS blocked).
+    const err = new Error("Cannot reach the server. Check your connection and try again.");
+    err.code = "NETWORK_ERROR";
+    err.status = 0;
+    err.details = [];
+    throw err;
   }
 
-  const data = await response.json();
+  // 201 with no body, or 204 No Content, has nothing to parse
+  const text = await response.text();
+  let data = null;
+  if (text) {
+    try {
+      data = JSON.parse(text);
+    } catch {
+      data = null; // e.g. an HTML error page from a proxy
+    }
+  }
 
   // If the backend says something went wrong, throw so the
   // calling code can catch it and show the message in the UI.
   if (!response.ok) {
-    const err = new Error(data.error?.message || "Something went wrong");
-    err.code = data.error?.code || "UNKNOWN";
-    err.details = data.error?.details || [];
+    const err = new Error(data?.error?.message || "Something went wrong");
+    err.code = data?.error?.code || "UNKNOWN";
+    err.status = response.status;
+    err.details = data?.error?.details || [];
     throw err;
   }
 
   return data;
+}
+
+/**
+ * Turns VALIDATION_ERROR details  [{ field, message }]  into an
+ * object  { email: "Invalid email", ... }  so a form can show each
+ * message under the matching input.
+ */
+export function fieldErrors(err) {
+  const result = {};
+  for (const d of err?.details || []) {
+    if (d.field && !result[d.field]) result[d.field] = d.message;
+  }
+  return result;
+}
+
+/**
+ * Builds a query string from an object, skipping empty values.
+ *   toQuery({ page: 2, search: "", verified: true }) → "?page=2&verified=true"
+ */
+export function toQuery(params) {
+  const qs = new URLSearchParams();
+  for (const [key, value] of Object.entries(params)) {
+    if (value !== undefined && value !== null && value !== "" && value !== false) {
+      qs.set(key, value);
+    }
+  }
+  const s = qs.toString();
+  return s ? `?${s}` : "";
 }
 
 // Convenience methods so callers don't repeat { method: "POST" }
