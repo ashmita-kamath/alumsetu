@@ -1,6 +1,7 @@
 import { Link, useParams } from "react-router-dom";
 import useApi from "../hooks/useApi";
 import { Alert, Badge, Card, PageLoader } from "../components/ui";
+import RequestMentorshipButton from "../components/mentorship/RequestMentorshipButton";
 
 /**
  * One alumnus's public profile → GET /alumni/:userId
@@ -59,6 +60,7 @@ export default function AlumniProfile() {
                 : "Not taking mentees right now"}
             </p>
           </div>
+          <RequestMentorshipButton alumnus={alumnus} className="sm:shrink-0" />
         </div>
 
         <dl className="mt-6 grid gap-x-6 gap-y-3 border-t border-gray-100 pt-6 sm:grid-cols-2">
