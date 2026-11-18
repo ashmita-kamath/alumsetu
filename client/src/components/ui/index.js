@@ -9,3 +9,4 @@ export { default as Pagination } from "./Pagination";
 export { default as Textarea } from "./Textarea";
 export { default as Modal } from "./Modal";
 export { default as Alert } from "./Alert";
+export { default as PageLoader } from "./PageLoader";
