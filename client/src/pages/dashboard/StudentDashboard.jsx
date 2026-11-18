@@ -3,6 +3,7 @@ import { useAuth } from "../../context/AuthContext";
 import useApi from "../../hooks/useApi";
 import { Alert } from "../../components/ui";
 import DashboardTile from "./DashboardTile";
+import SuggestedMentors from "../../components/alumni/SuggestedMentors";
 
 /**
  * Student home page.
@@ -10,6 +11,7 @@ import DashboardTile from "./DashboardTile";
  * – If the student has no profile yet, nudge them to create one,
  *   because mentor suggestions need their skills and career goal.
  * – Quick links to the main student features.
+ * – AI mentor suggestions with score and reasons.
  */
 export default function StudentDashboard() {
   const { user } = useAuth();
@@ -37,6 +39,8 @@ export default function StudentDashboard() {
         <DashboardTile to="/forum" title="Forum" text="Ask questions about careers, academics and placements." />
         <DashboardTile to="/profile/edit" title="Edit profile" text="Keep your skills and goals up to date." />
       </div>
+
+      <SuggestedMentors />
     </div>
   );
 }
