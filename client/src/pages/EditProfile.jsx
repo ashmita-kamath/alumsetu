@@ -225,7 +225,7 @@ export default function EditProfile() {
                 <Input id="current_company" name="current_company" label="Current company" value={form.current_company} onChange={handleChange} error={errors.current_company} />
                 <Input id="job_title" name="job_title" label="Job title" value={form.job_title} onChange={handleChange} error={errors.job_title} />
                 <Input id="industry" name="industry" label="Industry" placeholder="e.g. IT Services" value={form.industry} onChange={handleChange} error={errors.industry} />
-                <Input id="location" name="location" label="Location" placeholder="e.g. Jaipur" value={form.location} onChange={handleChange} error={errors.location} />
+                <Input id="location" name="location" label="Location" placeholder="e.g. Bengaluru" value={form.location} onChange={handleChange} error={errors.location} />
               </div>
               <Input id="linkedin_url" name="linkedin_url" type="url" label="LinkedIn URL" placeholder="https://linkedin.com/in/…" value={form.linkedin_url} onChange={handleChange} error={errors.linkedin_url} />
               <label className="flex items-center gap-2 text-sm font-semibold text-navy">

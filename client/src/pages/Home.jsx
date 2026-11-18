@@ -41,7 +41,7 @@ const features = [
   {
     title: "Grow",
     description:
-      "Discover job openings, internships, and referral opportunities posted by verified alumni from Rajasthan's technical colleges.",
+      "Discover job openings, internships, and referral opportunities posted by verified alumni from Bengaluru's engineering colleges.",
     icon: (
       <svg className="h-8 w-8 text-orange" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
         <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 18L9 11.25l4.306 4.307a11.95 11.95 0 015.814-5.519l2.74-1.22m0 0l-5.94-2.28m5.94 2.28l-2.28 5.941" />
@@ -57,7 +57,7 @@ export default function Home() {
       <section className="bg-navy text-white">
         <div className="mx-auto max-w-4xl px-4 py-20 text-center">
           <h1 className="text-3xl font-bold text-white sm:text-4xl lg:text-5xl">
-            Bridging Students and Alumni of Rajasthan's Technical Colleges
+            Bridging Students and Alumni of Bengaluru's Engineering Colleges
           </h1>
           <p className="mx-auto mt-4 max-w-2xl text-lg text-gray-300">
             AlumSetu connects you with verified alumni for mentorship, career guidance, and opportunities — all in one place.

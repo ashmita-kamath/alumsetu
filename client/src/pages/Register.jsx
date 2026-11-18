@@ -82,7 +82,7 @@ export default function Register() {
   return (
     <div className="mx-auto max-w-lg px-4 py-12 sm:py-16">
       <h1 className="text-center text-2xl font-bold sm:text-3xl">Create your account</h1>
-      <p className="mt-2 text-center text-sm">Join the alumni network of Rajasthan&apos;s technical colleges.</p>
+      <p className="mt-2 text-center text-sm">Join the alumni network of Bengaluru&apos;s engineering colleges.</p>
 
       <Card className="mt-8">
         <form onSubmit={handleSubmit} noValidate className="flex flex-col gap-4">

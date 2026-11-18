@@ -1,6 +1,6 @@
 # AlumSetu
 
-**A bridge between students and alumni of technical institutions in Rajasthan.**
+**A bridge between students and alumni of engineering colleges, launching in Bengaluru.**
 
 AlumSetu is a web platform where current students connect with verified alumni for mentorship, career guidance, events and job referrals, backed by a central alumni database and AI-suggested mentor matches.
 
@@ -105,6 +105,8 @@ npm run dev
 Then open http://localhost:5173
 
 Database: open the Neon SQL editor and run, in order: `database/schema.sql`, `database/seed.sql`, and (for development only) `database/sample-data.sql`, `database/sample-students.sql` and `database/sample-content.sql`.
+
+Database set up before the switch to Bengaluru colleges? Run `database/switch-to-bangalore.sql` once in the Neon SQL editor (take a backup branch first).
 
 Check the connection with `npm run db:check` inside `server/`.
 
