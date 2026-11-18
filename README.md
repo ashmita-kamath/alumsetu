@@ -104,11 +104,13 @@ npm run dev
 ```
 Then open http://localhost:5173
 
-Database: open the Neon SQL editor and run, in order: `database/schema.sql`, `database/seed.sql`, and (for development only) `database/sample-data.sql` and `database/sample-students.sql`.
+Database: open the Neon SQL editor and run, in order: `database/schema.sql`, `database/seed.sql`, and (for development only) `database/sample-data.sql`, `database/sample-students.sql` and `database/sample-content.sql`.
 
 Check the connection with `npm run db:check` inside `server/`.
 
-Run the automated tests with `npm test` inside `server/`.
+Run the automated tests with `npm test` inside `server/` (68 tests). The integration tests need `DATABASE_URL` in `server/.env`; they create temporary users with `@test.alumsetu.dev` emails and delete everything they create when they finish.
+
+Until login (`feat/auth-jwt`) is merged, you can try protected endpoints locally by sending the header `X-Dev-User-Id: <user uuid>`. This only works when `NODE_ENV` is not `production`.
 
 ## Team
 

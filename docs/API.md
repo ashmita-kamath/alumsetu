@@ -17,6 +17,8 @@ Protected endpoints need this header:
 ```
 Authorization: Bearer <token>
 ```
+**Development only (until `feat/auth-jwt` is merged):** when `NODE_ENV` is not `production`, the header `X-Dev-User-Id: <user uuid>` makes a request act as that user. The automated tests use it. It is ignored in production.
+
 The token is a JWT returned by register/login. Payload: `{ "id": "<uuid>", "role": "student|alumni|admin" }`, expiry 7 days.
 
 ### Error format (every error, every endpoint)
@@ -150,7 +152,6 @@ Query filters for `GET /alumni` (all optional, combine freely):
 - Students with no skills and no career goal get `[]` with `200`. The UI shows "complete your profile".
 - Only matches with at least one reason are returned. `limit` defaults to 5 (max 10).
 - Goal similarity compares the student's `career_goal` with the alumnus's `job_title` and `industry`.
-- Until auth is merged, local development can pass `?student_id=<uuid>`. This is ignored in production.
 
 ### Mentorship: owner Ashmita
 | Method | Path | Auth | Body | Returns |
@@ -211,13 +212,17 @@ Each comment in `GET /posts/:id` (and the `comment` in the POST response):
 | GET | `/events/:id` | any | | `{ event, registered_count, is_registered }` |
 | PATCH | `/events/:id` | organizer, admin | any event field | `{ event }` |
 | DELETE | `/events/:id` | organizer, admin | | `204` |
-| POST | `/events/:id/register` | student, alumni | | `201` |
+| POST | `/events/:id/register` | student, alumni | | `201 { registered: true }` |
 | DELETE | `/events/:id/register` | registered user | | `204` |
 | GET | `/events/:id/registrations` | organizer, admin | | `[ { user, registered_at, attended } ]` |
-| GET | `/me/registrations` | any | | events I registered for |
+| GET | `/me/registrations` | any | | events I registered for, each with `registered_at` |
 
 - `type`: `meetup`, `webinar`, `panel`, `career_session`. `mode`: `online`, `offline`.
 - `409` if already registered or the event is full; `400` if the event is in the past.
+- Every event includes `organizer: { id, full_name, role }`. Lists also include `registered_count`.
+- `PATCH` cannot set `capacity` below the number already registered (`409`).
+- Registration locks the event row in a transaction, so the last seat cannot be taken twice.
+- Each item from `GET /events/:id/registrations`: `{ user: { id, full_name, email, role }, registered_at, attended }`.
 
 ### Jobs and applications: owner Ashmita
 | Method | Path | Auth | Body | Returns |
@@ -226,13 +231,18 @@ Each comment in `GET /posts/:id` (and the `comment` in the POST response):
 | POST | `/jobs` | verified alumni | `{ title, company, type, location, description, deadline }` | `201 { job }` |
 | GET | `/jobs/:id` | any | | `{ job, has_applied }` |
 | DELETE | `/jobs/:id` | poster, admin | | `204` |
-| POST | `/jobs/:id/apply` | student | `{ resume_url }` | `201 { application }` |
+| POST | `/jobs/:id/apply` | student | `{ resume_url? }` | `201 { application }` |
 | GET | `/jobs/:id/applications` | poster | | applications with student name |
 | GET | `/applications/my` | student | | my applications with job title and status |
 | PATCH | `/applications/:id` | job poster | `{ status: "shortlisted" \| "rejected" \| "selected" }` | `{ application }` |
 
 - `type`: `job`, `internship`, `referral`.
 - `409` if already applied; `400` if past `deadline`.
+- Every job includes `posted_by: { id, full_name }` and `is_open` (deadline not passed).
+- `GET /jobs` hides closed jobs unless `?include_closed=true`. `deadline` is a date `YYYY-MM-DD`.
+- Each item from `GET /jobs/:id/applications`: `{ id, resume_url, status, applied_at, student: { id, full_name, email } }`.
+- Each item from `GET /applications/my`: `{ id, resume_url, status, applied_at, job: { id, title, company, type, deadline } }`.
+- `PATCH /applications/:id` by anyone except the poster returns `404`.
 
 ### File upload: owner Dhanishtha
 | Method | Path | Auth | Body | Returns |
