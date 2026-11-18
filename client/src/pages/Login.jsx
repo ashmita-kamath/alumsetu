@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import { useToast } from "../context/ToastContext";
 import { Alert, Button, Card, Input } from "../components/ui";
 
 /**
@@ -12,6 +13,7 @@ import { Alert, Button, Card, Input } from "../components/ui";
  */
 export default function Login() {
   const { login } = useAuth();
+  const { showToast } = useToast();
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -42,7 +44,8 @@ export default function Login() {
 
     setSubmitting(true);
     try {
-      await login(form.email.trim(), form.password);
+      const user = await login(form.email.trim(), form.password);
+      showToast(`Logged in successfully. Welcome back, ${user.full_name.split(" ")[0]}!`);
       const from = location.state?.from?.pathname || "/dashboard";
       navigate(from, { replace: true });
     } catch (err) {

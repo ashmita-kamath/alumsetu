@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import { useToast } from "../context/ToastContext";
 import { fieldErrors } from "../services/api";
 import { Alert, Button, Card, Input } from "../components/ui";
 
@@ -28,6 +29,7 @@ const ROLES = [
 
 export default function Register() {
   const { register } = useAuth();
+  const { showToast } = useToast();
   const navigate = useNavigate();
 
   const [form, setForm] = useState({
@@ -64,12 +66,13 @@ export default function Register() {
 
     setSubmitting(true);
     try {
-      await register({
+      const user = await register({
         full_name: form.full_name.trim(),
         email: form.email.trim(),
         password: form.password,
         role: form.role,
       });
+      showToast(`Account created successfully. Welcome to AlumSetu, ${user.full_name.split(" ")[0]}!`);
       navigate("/profile/edit", { replace: true, state: { welcome: true } });
     } catch (err) {
       // 409 = email already taken, 400 = validation (field messages in details)
