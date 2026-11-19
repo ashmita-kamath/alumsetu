@@ -33,10 +33,14 @@ export const TOKEN_KEY = "alumsetu_token";
 async function request(endpoint, { method = "GET", body, headers = {} } = {}) {
   const token = localStorage.getItem(TOKEN_KEY);
 
+  // A file upload sends FormData. The browser must set its own Content-Type
+  // (multipart/form-data with a boundary), so we only set JSON for other bodies.
+  const isForm = body instanceof FormData;
+
   const config = {
     method,
     headers: {
-      "Content-Type": "application/json",
+      ...(isForm ? {} : { "Content-Type": "application/json" }),
       ...headers,
     },
   };
@@ -48,7 +52,7 @@ async function request(endpoint, { method = "GET", body, headers = {} } = {}) {
 
   // Only add a body for methods that support one
   if (body) {
-    config.body = JSON.stringify(body);
+    config.body = isForm ? body : JSON.stringify(body);
   }
 
   let response;
@@ -124,5 +128,17 @@ const api = {
   patch: (endpoint, body) => request(endpoint, { method: "PATCH", body }),
   delete: (endpoint) => request(endpoint, { method: "DELETE" }),
 };
+
+/**
+ * Uploads one file → POST /uploads → returns the stored file's URL.
+ *   kind: "resume" (students) or "verification" (alumni)
+ */
+export async function uploadFile(file, kind) {
+  const form = new FormData();
+  form.append("kind", kind);
+  form.append("file", file);
+  const { url } = await request("/uploads", { method: "POST", body: form });
+  return url;
+}
 
 export default api;
