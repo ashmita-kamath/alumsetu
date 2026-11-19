@@ -3,12 +3,17 @@ import cors from "cors";
 import morgan from "morgan";
 import errorHandler from "./middleware/errorHandler.js";
 import apiRoutes from "./routes/index.js";
+import { corsOptions } from "./config/cors.js";
 
 const app = express();
 
-app.use(cors({ origin: process.env.CLIENT_URL || "*" }));
+// Render sits in front of the app as a proxy; this makes req.ip the real visitor's address.
+app.set("trust proxy", 1);
+app.disable("x-powered-by");
+
+app.use(cors(corsOptions()));
 app.use(express.json({ limit: "1mb" }));
-app.use(morgan("dev"));
+app.use(morgan(process.env.NODE_ENV === "production" ? "combined" : "dev"));
 
 app.use("/api", apiRoutes);
 
