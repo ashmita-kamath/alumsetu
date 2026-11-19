@@ -42,6 +42,10 @@ List endpoints accept `?page=1&limit=20` (max `limit` 50) and return:
 { "items": [], "page": 1, "limit": 20, "total": 134 }
 ```
 
+### Search
+- Every `search` parameter (`/alumni`, `/posts`, `/jobs`, `/skills`) is a case-insensitive "contains" match, so `search=info` finds "Infosys".
+- These searches are backed by trigram indexes (`pg_trgm`), so they stay fast as the data grows. See `docs/DB-TUNING.md`.
+
 ### Rules for every response
 - Never return `password_hash`.
 - Dates are ISO strings (`2026-11-20T10:00:00.000Z`).
