@@ -9,7 +9,8 @@
     "start": "node src/index.js",
     "db:check": "node src/scripts/dbCheck.js",
     "test": "node --env-file-if-exists=.env --test tests/*.test.js",
-    "create-admin": "node src/scripts/createAdmin.js"
+    "create-admin": "node src/scripts/createAdmin.js",
+    "create-demo-users": "node src/scripts/createDemoUsers.js"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
@@ -27,5 +28,8 @@
   "devDependencies": {
     "supertest": "^7.3.2"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "engines": {
+    "node": ">=20"
+  }
 }
