@@ -66,21 +66,38 @@ Full justification: [`docs/STAGE1.md`](docs/STAGE1.md)
 
 ```
 alumsetu/
-├── client/            React frontend (Vite)
+├── client/                 React frontend (Vite + Tailwind)
 │   └── src/
-├── server/            Express backend
-│   └── src/
-│       ├── routes/
-│       ├── controllers/
-│       ├── middleware/
-│       ├── services/
-│       └── utils/
+│       ├── components/     UI kit (ui/) and feature components
+│       ├── context/        Auth and toast state
+│       ├── hooks/          useApi, useAdminList, useCanPost
+│       ├── layouts/        Page shell (navbar + footer)
+│       ├── pages/          One file per screen (admin/, events/, jobs/, forum/ ...)
+│       ├── routes/         App routes and role-based ProtectedRoute
+│       ├── services/       api.js (fetch wrapper, uploads)
+│       └── utils/          Date formatting
+├── server/                 Express backend
+│   ├── src/
+│   │   ├── routes/         URL → middleware → controller
+│   │   ├── controllers/    Read the request, call a service, send the response
+│   │   ├── services/       Business rules and SQL
+│   │   ├── validators/     Zod schemas for body, query and params
+│   │   ├── middleware/     Auth, validation, file upload, errors
+│   │   ├── config/         Database connection
+│   │   ├── data/           Blocked-word list for moderation
+│   │   ├── scripts/        create-admin
+│   │   └── utils/          Errors, JWT, logger
+│   └── tests/              node:test + Supertest
 ├── database/
-│   └── schema.sql     PostgreSQL schema
+│   ├── schema.sql          PostgreSQL schema
+│   ├── seed.sql            Colleges and skills
+│   └── sample-*.sql        Demo data (development only)
 └── docs/
-    ├── STAGE1.md      Problem, features, architecture, stack
-    ├── er-diagram.*   Full ER diagram (png, svg, mermaid)
-    └── er/            Overview + module ER diagrams
+    ├── STAGE1.md           Problem, features, architecture, stack
+    ├── API.md              Every endpoint with examples
+    ├── ROADMAP.md          Stage 2 build plan
+    ├── er-diagram.*        Full ER diagram (png, svg, mermaid)
+    └── er/                 Overview + module ER diagrams
 ```
 
 ## Getting Started
@@ -108,9 +125,9 @@ Database: open the Neon SQL editor and run, in order: `database/schema.sql`, `da
 
 Check the connection with `npm run db:check` inside `server/`.
 
-Run the automated tests with `npm test` inside `server/` (68 tests). The integration tests need `DATABASE_URL` in `server/.env`; they create temporary users with `@test.alumsetu.dev` emails and delete everything they create when they finish.
+Run the automated tests with `npm test` inside `server/` (118 tests). The integration tests need `DATABASE_URL` in `server/.env`; they create temporary users with `@test.alumsetu.dev` emails and delete everything they create when they finish.
 
-Until login (`feat/auth-jwt`) is merged, you can try protected endpoints locally by sending the header `X-Dev-User-Id: <user uuid>`. This only works when `NODE_ENV` is not `production`.
+Protected endpoints need `Authorization: Bearer <token>` from `POST /api/auth/login`. For quick local testing you can instead send `X-Dev-User-Id: <user uuid>`; this is ignored when `NODE_ENV` is `production`. Create the first admin with `npm run create-admin` inside `server/`.
 
 ## Team
 
