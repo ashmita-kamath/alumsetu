@@ -50,8 +50,22 @@ export default function SkillPicker({ value, onChange, label = "Skills" }) {
   }, [search]);
 
   const chosenIds = new Set(value.map((s) => s.id));
-  const visible = suggestions.filter((s) => !chosenIds.has(s.id)).slice(0, 8);
-  const exactMatch = suggestions.some((s) => s.name.toLowerCase() === search.toLowerCase());
+  const lower = search.toLowerCase();
+
+  // Best match first: an exact match, then names that start with the text,
+  // then the rest. Otherwise typing "SQL" + Enter would pick "PostgreSQL",
+  // because the API returns skills in alphabetical order.
+  const rank = (s) => {
+    const name = s.name.toLowerCase();
+    if (name === lower) return 0;
+    if (name.startsWith(lower)) return 1;
+    return 2;
+  };
+  const visible = suggestions
+    .filter((s) => !chosenIds.has(s.id))
+    .sort((a, b) => rank(a) - rank(b))
+    .slice(0, 8);
+  const exactMatch = suggestions.some((s) => s.name.toLowerCase() === lower);
 
   const addSkill = (skill) => {
     if (!chosenIds.has(skill.id)) onChange([...value, skill]);
