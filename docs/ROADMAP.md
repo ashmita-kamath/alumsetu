@@ -36,8 +36,8 @@ Every endpoint referenced below is defined in [`API.md`](API.md). Database table
 | Member | Tasks | Branch |
 |---|---|---|
 | Siddhanth | Install Tailwind and React Router. Set up folders (`components/`, `pages/`, `layouts/`, `services/`, `context/`). Build Navbar, Footer, Button, Input, Card, Modal. Build the landing page. Create `services/api.js` that reads `VITE_API_URL` and attaches the token. | `feat/ui-foundation` |
-| Ashmita | Create the Neon project, run `schema.sql`. Add `pg` connection pool (`server/src/config/db.js`). Write `database/seed.sql` with institutions, skills and an admin account. Add `app.js` and route folder structure. | `feat/db-setup` |
-| Dhanishtha | Add Jest + Supertest to the server. Write the `validate(schema)` Zod middleware and the error helper (`AppError`) matching the `API.md` error format. Add `.github/pull_request_template.md`. Turn on branch protection for `main`. | `feat/quality-setup` |
+| Ashmita | Create the Neon project, run `schema.sql`. Add `pg` connection pool (`server/src/config/db.js`). Write `database/seed.sql` with institutions and skills. (Admin accounts are created with `npm run create-admin`, because passwords must be hashed.) Add `app.js` and route folder structure. | `feat/db-setup` |
+| Dhanishtha | Add Supertest with Node's built-in test runner (`node --test`) to the server. Write the `validate(schema)` Zod middleware and the error helper (`AppError`) matching the `API.md` error format. Add `.github/pull_request_template.md`. Turn on branch protection for `main`. | `feat/quality-setup` |
 
 ## Phase 1: Auth and profiles · 5–8 Nov
 
