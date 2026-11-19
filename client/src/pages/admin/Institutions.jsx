@@ -11,7 +11,7 @@ import { Alert, Button, Card, Input, PageLoader } from "../../components/ui";
  *   Add  → POST /institutions { name, city, district } (admin only)
  *
  * New colleges appear in every college dropdown straight away. This is
- * how AlumSetu grows from Bengaluru to more cities.
+ * how AlumSetu grows beyond the Rajasthan colleges it starts with.
  */
 export default function Institutions() {
   const { showToast } = useToast();
@@ -69,10 +69,10 @@ export default function Institutions() {
         <h2 className="text-lg font-bold">Add a college</h2>
         <form onSubmit={handleSubmit} noValidate className="mt-4 flex flex-col gap-4">
           <Alert>{serverError}</Alert>
-          <Input id="name" name="name" label="College name" maxLength={200} placeholder="e.g. Sir M. Visvesvaraya Institute of Technology" value={form.name} onChange={handleChange} error={errors.name} />
+          <Input id="name" name="name" label="College name" maxLength={200} placeholder="e.g. Government Engineering College, Barmer" value={form.name} onChange={handleChange} error={errors.name} />
           <div className="grid gap-4 sm:grid-cols-2">
-            <Input id="city" name="city" label="City" maxLength={100} placeholder="e.g. Bengaluru" value={form.city} onChange={handleChange} error={errors.city} />
-            <Input id="district" name="district" label="District (optional)" maxLength={100} placeholder="e.g. Bengaluru Urban" value={form.district} onChange={handleChange} error={errors.district} />
+            <Input id="city" name="city" label="City" maxLength={100} placeholder="e.g. Barmer" value={form.city} onChange={handleChange} error={errors.city} />
+            <Input id="district" name="district" label="District (optional)" maxLength={100} placeholder="e.g. Barmer" value={form.district} onChange={handleChange} error={errors.district} />
           </div>
           <Button type="submit" disabled={saving} className="sm:self-end">
             {saving ? "Adding…" : "Add college"}
