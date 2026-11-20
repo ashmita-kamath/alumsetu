@@ -1,6 +1,8 @@
 import { z } from "zod";
 import { optionalText, positiveInt, year } from "./common.js";
 
+export const EMPLOYMENT_STATUSES = ["employed", "self_employed", "higher_studies", "seeking", "other"];
+
 const common = {
   full_name: z.string().trim().min(2).max(150).optional(),
   institution_id: positiveInt,
@@ -32,4 +34,11 @@ export const alumniProfileSchema = z.object({
     message: "Must start with http:// or https://",
   }),
   available_for_mentoring: z.boolean().default(true),
+  employment_status: z.enum(EMPLOYMENT_STATUSES).nullish().transform((v) => v ?? null),
+  bio: optionalText(2000),
+  achievements: optionalText(2000),
+  // Only the alumnus and admins see it (contact details for the alumni database)
+  phone: optionalText(20).refine((v) => v === null || /^\+?[0-9][0-9 -]{6,18}$/.test(v), {
+    message: "Enter a valid phone number, e.g. +91 98290 12345",
+  }),
 });

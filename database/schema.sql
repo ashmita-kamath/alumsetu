@@ -12,6 +12,7 @@ CREATE TYPE event_type       AS ENUM ('meetup', 'webinar', 'panel', 'career_sess
 CREATE TYPE event_mode       AS ENUM ('online', 'offline');
 CREATE TYPE job_type         AS ENUM ('job', 'internship', 'referral');
 CREATE TYPE application_status AS ENUM ('applied', 'shortlisted', 'rejected', 'selected');
+CREATE TYPE employment_status  AS ENUM ('employed', 'self_employed', 'higher_studies', 'seeking', 'other');
 
 -- 1. Institutions (colleges under the Technical Education Department)
 CREATE TABLE institutions (
@@ -54,6 +55,10 @@ CREATE TABLE alumni_profiles (
     industry                VARCHAR(100),
     location                VARCHAR(100),
     linkedin_url            TEXT,
+    employment_status       employment_status,
+    bio                     TEXT,
+    achievements            TEXT,          -- awards, projects, certifications, higher studies
+    phone                   VARCHAR(20),   -- contact number; only the alumnus and admins see it
     is_verified             BOOLEAN NOT NULL DEFAULT FALSE,
     available_for_mentoring BOOLEAN NOT NULL DEFAULT TRUE
 );
@@ -179,6 +184,7 @@ CREATE TABLE job_applications (
 -- Indexes for common searches
 CREATE INDEX idx_alumni_company  ON alumni_profiles (current_company);
 CREATE INDEX idx_alumni_branch   ON alumni_profiles (branch, graduation_year);
+CREATE INDEX idx_alumni_employment ON alumni_profiles (employment_status);
 CREATE INDEX idx_mentor_alumni   ON mentorship_requests (alumni_id, status);
 CREATE INDEX idx_posts_created   ON forum_posts (created_at DESC);
 CREATE INDEX idx_events_start    ON events (start_time);

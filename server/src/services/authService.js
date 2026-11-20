@@ -5,6 +5,7 @@ import { query } from "../config/db.js";
 import { AppError } from "../utils/AppError.js";
 import { isUniqueViolation } from "../utils/dbErrors.js";
 import { signToken } from "../utils/jwt.js";
+import { checkText } from "./moderationService.js";
 
 // Cost 10 = 2^10 hashing rounds: about 50–100 ms per hash. Slow on purpose,
 // so guessing millions of passwords from a stolen database is impractical.
@@ -19,6 +20,9 @@ const PUBLIC_COLUMNS = "id, email, full_name, role, status, created_at";
 const DUMMY_HASH = bcrypt.hashSync("not-a-real-password-" + Math.random(), SALT_ROUNDS);
 
 export async function register({ email, password, full_name, role }) {
+  if (!checkText(full_name).allowed) {
+    throw new AppError(422, "CONTENT_BLOCKED", "That name isn't allowed on AlumSetu. Please use your real name.");
+  }
   const passwordHash = await bcrypt.hash(password, SALT_ROUNDS);
   try {
     // New accounts are active straight away (docs/API.md). Alumni still start
