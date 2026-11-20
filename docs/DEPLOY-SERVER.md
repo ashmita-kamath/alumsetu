@@ -17,7 +17,7 @@ The API runs on **Render**, the database on **Neon**, and the website on **Verce
 ## 2. Prepare the production database (once)
 In the Neon SQL Editor, if not already done, run in this order:
 `database/schema.sql` → `database/seed.sql` → `database/sample-data.sql` → `database/sample-content.sql`.
-On an existing database, run `database/migrations/002_indexes.sql` instead of `schema.sql`.
+On an existing database, run the files in `database/migrations/` in order (`002_indexes.sql`, `003_rajasthan_polytechnics.sql`, ...) instead of `schema.sql`. Each one is safe to run more than once.
 
 ## 3. Create the demo accounts
 From `server/` on your laptop, with `DATABASE_URL` in `server/.env` pointing at Neon:

@@ -22,7 +22,7 @@ INSERT INTO _sample_alumni VALUES
    'L&T Construction', 'Project Engineer', 'Infrastructure', 'Jaipur', TRUE, FALSE, ARRAY['AutoCAD','Civil Engineering Design','Project Management']),
   ('ananya.jain@sample.alumsetu.dev', 'Ananya Jain', 'College of Technology and Engineering, Udaipur', 'CSE', 2023,
    'Amazon', 'Machine Learning Engineer', 'E-commerce', 'Hyderabad', TRUE, TRUE, ARRAY['Python','Machine Learning','Deep Learning','AWS']),
-  ('mohit.gurjar@sample.alumsetu.dev', 'Mohit Gurjar', 'Government Polytechnic College, Jaipur', 'Mechanical', 2017,
+  ('mohit.gurjar@sample.alumsetu.dev', 'Mohit Gurjar', 'Government Ram Chandra Khaitan Polytechnic College, Jaipur', 'Mechanical', 2017,
    'Maruti Suzuki', 'Production Supervisor', 'Automotive', 'Manesar', FALSE, TRUE, ARRAY['SolidWorks','AutoCAD','Project Management']),
   ('sana.khan@sample.alumsetu.dev', 'Sana Khan', 'Government Engineering College, Bharatpur', 'CSE', 2021,
    'Razorpay', 'Backend Engineer', 'Fintech', 'Bengaluru', FALSE, TRUE, ARRAY['Node.js','Express','PostgreSQL','Docker']);
