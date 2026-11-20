@@ -4,6 +4,7 @@ import { useAuth } from "../context/AuthContext";
 import api, { fieldErrors } from "../services/api";
 import { Alert, Button, Card, Input, PageLoader, Select, Textarea } from "../components/ui";
 import SkillPicker from "../components/profile/SkillPicker";
+import { EMPLOYMENT_STATUSES } from "../utils/employment";
 
 /**
  * Profile edit page for students and alumni.
@@ -40,6 +41,9 @@ function toForm(user, profile) {
     location: str(p.location),
     linkedin_url: str(p.linkedin_url),
     available_for_mentoring: p.available_for_mentoring ?? true,
+    employment_status: str(p.employment_status),
+    achievements: str(p.achievements),
+    phone: str(p.phone),
   };
 }
 
@@ -91,6 +95,8 @@ export default function EditProfile() {
       if (!year(form.graduation_year)) next.graduation_year = "Enter a valid year";
       if (form.linkedin_url && !/^https?:\/\//.test(form.linkedin_url.trim()))
         next.linkedin_url = "Must start with https://";
+      if (form.phone.trim() && !/^\+?[0-9][0-9 -]{6,18}$/.test(form.phone.trim()))
+        next.phone = "Enter a valid phone number, e.g. +91 98290 12345";
     }
     setErrors(next);
     return Object.keys(next).length === 0;
@@ -121,6 +127,10 @@ export default function EditProfile() {
       location: optional(form.location),
       linkedin_url: optional(form.linkedin_url),
       available_for_mentoring: form.available_for_mentoring,
+      employment_status: form.employment_status || null,
+      bio: optional(form.bio),
+      achievements: optional(form.achievements),
+      phone: optional(form.phone),
     };
   };
 
@@ -220,14 +230,34 @@ export default function EditProfile() {
             </>
           ) : (
             <>
-              <Input id="graduation_year" name="graduation_year" type="number" inputMode="numeric" label="Graduation year" value={form.graduation_year} onChange={handleChange} error={errors.graduation_year} />
+              <div className="grid gap-5 sm:grid-cols-2">
+                <Input id="graduation_year" name="graduation_year" type="number" inputMode="numeric" label="Graduation year" value={form.graduation_year} onChange={handleChange} error={errors.graduation_year} />
+                <Select
+                  id="employment_status"
+                  name="employment_status"
+                  label="What are you doing now?"
+                  placeholder="Choose one"
+                  options={EMPLOYMENT_STATUSES}
+                  value={form.employment_status}
+                  onChange={handleChange}
+                  error={errors.employment_status}
+                />
+              </div>
               <div className="grid gap-5 sm:grid-cols-2">
                 <Input id="current_company" name="current_company" label="Current company" value={form.current_company} onChange={handleChange} error={errors.current_company} />
                 <Input id="job_title" name="job_title" label="Job title" value={form.job_title} onChange={handleChange} error={errors.job_title} />
                 <Input id="industry" name="industry" label="Industry" placeholder="e.g. IT Services" value={form.industry} onChange={handleChange} error={errors.industry} />
                 <Input id="location" name="location" label="Location" placeholder="e.g. Jaipur" value={form.location} onChange={handleChange} error={errors.location} />
               </div>
-              <Input id="linkedin_url" name="linkedin_url" type="url" label="LinkedIn URL" placeholder="https://linkedin.com/in/…" value={form.linkedin_url} onChange={handleChange} error={errors.linkedin_url} />
+              <Textarea id="bio" name="bio" label="About you" placeholder="Your career so far and what you can help students with" maxLength={2000} value={form.bio} onChange={handleChange} error={errors.bio} />
+              <Textarea id="achievements" name="achievements" rows={3} label="Achievements (optional)" placeholder="e.g. University gold medal 2016, AWS certification, patent on …" maxLength={2000} value={form.achievements} onChange={handleChange} error={errors.achievements} />
+              <div className="grid gap-5 sm:grid-cols-2">
+                <Input id="linkedin_url" name="linkedin_url" type="url" label="LinkedIn URL" placeholder="https://linkedin.com/in/…" value={form.linkedin_url} onChange={handleChange} error={errors.linkedin_url} />
+                <div>
+                  <Input id="phone" name="phone" type="tel" inputMode="tel" label="Phone (optional)" placeholder="+91 98290 12345" maxLength={20} value={form.phone} onChange={handleChange} error={errors.phone} />
+                  <p className="mt-1 text-xs">Only admins of the department can see it.</p>
+                </div>
+              </div>
               <label className="flex items-center gap-2 text-sm font-semibold text-navy">
                 <input
                   type="checkbox"

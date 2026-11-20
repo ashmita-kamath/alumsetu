@@ -47,6 +47,13 @@ test("duplicate email is a 409 conflict, whatever the letter case", async () => 
   assert.equal(res.body.error.code, "CONFLICT");
 });
 
+test("register refuses an abusive name", async () => {
+  const res = await request(app).post("/api/auth/register")
+    .send({ email: "bad-name@test.alumsetu.dev", password: "long-enough-password", full_name: "Shit Head", role: "student" });
+  assert.equal(res.status, 422);
+  assert.equal(res.body.error.code, "CONTENT_BLOCKED");
+});
+
 test("register validates the body and refuses admin sign-ups", async () => {
   const cases = [
     { email: "not-an-email", password, full_name: "A B", role: "student" },

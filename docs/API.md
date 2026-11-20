@@ -103,7 +103,7 @@ List endpoints accept `?page=1&limit=20` (max `limit` 50) and return:
 |---|---|---|---|---|
 | GET | `/profiles/me` | any | | `{ user, profile, skills }` |
 | PUT | `/profiles/me` | student, alumni | see below | `{ user, profile, skills }` |
-| GET | `/profiles/:userId` | any | | `{ user, profile, skills }` (no email unless it's you or admin) |
+| GET | `/profiles/:userId` | any | | `{ user, profile, skills }` (no email or phone unless it's you or admin) |
 
 PUT body for a **student**:
 ```json
@@ -114,9 +114,13 @@ PUT body for an **alumnus**:
 ```json
 { "full_name": "...", "institution_id": 3, "branch": "CSE", "graduation_year": 2021,
   "current_company": "Infosys", "job_title": "Data Engineer", "industry": "IT Services",
-  "location": "Jaipur", "linkedin_url": "https://...", "available_for_mentoring": true, "skill_ids": [4, 9] }
+  "location": "Jaipur", "linkedin_url": "https://...", "available_for_mentoring": true, "skill_ids": [4, 9],
+  "employment_status": "employed", "bio": "...", "achievements": "...", "phone": "+91 98290 12345" }
 ```
 `PUT` creates the profile if it does not exist yet (upsert). `is_verified` can never be set here.
+- `employment_status` (optional): `employed`, `self_employed`, `higher_studies`, `seeking` or `other`.
+- `phone` (optional) is a private contact detail: only the alumnus and admins ever get it back.
+- Every text field (name, branch, career goal, bio, company, job title, industry, location, achievements) goes through the moderation filter. Blocked text returns `422 CONTENT_BLOCKED` and nothing is saved. Names are also checked at sign-up.
 
 ### Lookups: owner Ashmita
 | Method | Path | Auth | Body | Returns |
@@ -130,7 +134,7 @@ PUT body for an **alumnus**:
 | Method | Path | Auth | Returns |
 |---|---|---|---|
 | GET | `/alumni` | any | paginated `AlumniCard` list |
-| GET | `/alumni/:userId` | any | `AlumniCard` + `linkedin_url` |
+| GET | `/alumni/:userId` | any | `AlumniCard` + `linkedin_url`, `employment_status`, `bio`, `achievements` (never `phone`) |
 
 Query filters for `GET /alumni` (all optional, combine freely):
 `search` (name, company or job title), `institution_id`, `branch`, `graduation_year`, `company`, `skill_id`, `verified=true`, `mentoring=true`, `sort=name|graduation_year`, `page`, `limit`.
