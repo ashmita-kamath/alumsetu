@@ -103,7 +103,7 @@ List endpoints accept `?page=1&limit=20` (max `limit` 50) and return:
 |---|---|---|---|---|
 | GET | `/profiles/me` | any | | `{ user, profile, skills }` |
 | PUT | `/profiles/me` | student, alumni | see below | `{ user, profile, skills }` |
-| GET | `/profiles/:userId` | any | | `{ user, profile, skills }` (no email unless it's you or admin) |
+| GET | `/profiles/:userId` | any | | `{ user, profile, skills }` (no email or phone unless it's you or admin) |
 
 PUT body for a **student**:
 ```json
@@ -114,9 +114,13 @@ PUT body for an **alumnus**:
 ```json
 { "full_name": "...", "institution_id": 3, "branch": "CSE", "graduation_year": 2021,
   "current_company": "Infosys", "job_title": "Data Engineer", "industry": "IT Services",
-  "location": "Jaipur", "linkedin_url": "https://...", "available_for_mentoring": true, "skill_ids": [4, 9] }
+  "location": "Jaipur", "linkedin_url": "https://...", "available_for_mentoring": true, "skill_ids": [4, 9],
+  "employment_status": "employed", "bio": "...", "achievements": "...", "phone": "+91 98290 12345" }
 ```
 `PUT` creates the profile if it does not exist yet (upsert). `is_verified` can never be set here.
+- `employment_status` (optional): `employed`, `self_employed`, `higher_studies`, `seeking` or `other`.
+- `phone` (optional) is a private contact detail: only the alumnus and admins ever get it back.
+- Every text field (name, branch, career goal, bio, company, job title, industry, location, achievements) goes through the moderation filter. Blocked text returns `422 CONTENT_BLOCKED` and nothing is saved. Names are also checked at sign-up.
 
 ### Lookups: owner Ashmita
 | Method | Path | Auth | Body | Returns |
@@ -130,7 +134,7 @@ PUT body for an **alumnus**:
 | Method | Path | Auth | Returns |
 |---|---|---|---|
 | GET | `/alumni` | any | paginated `AlumniCard` list |
-| GET | `/alumni/:userId` | any | `AlumniCard` + `linkedin_url` |
+| GET | `/alumni/:userId` | any | `AlumniCard` + `linkedin_url`, `employment_status`, `bio`, `achievements` (never `phone`) |
 
 Query filters for `GET /alumni` (all optional, combine freely):
 `search` (name, company or job title), `institution_id`, `branch`, `graduation_year`, `company`, `skill_id`, `verified=true`, `mentoring=true`, `sort=name|graduation_year`, `page`, `limit`.
@@ -287,6 +291,18 @@ PDF, JPG or PNG only, max 5 MB. Stored on Cloudinary; verification files are upl
 
 - Each item from `GET /admin/users`: `{ id, email, full_name, role, status, created_at, is_verified }` (`is_verified` is `null` for non-alumni).
 - An admin cannot change their own status (`400`) or suspend another admin (`403`). Suspension takes effect immediately, because every request re-checks the account status.
+
+**Alumni database** (the department's central alumni record)
+
+| Method | Path | Auth | Returns |
+|---|---|---|---|
+| GET | `/admin/alumni?search=&institution_id=&branch=&graduation_year=&employment_status=&verified=` | admin | paginated alumni + `by_employment` |
+| GET | `/admin/alumni/export` (same filters, no paging) | admin | CSV file download (up to 10 000 rows) |
+
+- Each item: `{ user_id, full_name, email, phone, status, created_at, institution, city, district, branch, graduation_year, employment_status, current_company, job_title, industry, location, linkedin_url, achievements, is_verified, available_for_mentoring, skills }` (`skills` is a comma-separated string).
+- `employment_status` filter: one of the profile values, or `unknown` for alumni who haven't said. `verified`: `yes` or `no`.
+- `by_employment`: count per employment status for the same filters (the employment filter itself is ignored), e.g. `{ "employed": 41, "higher_studies": 6, "unknown": 3 }`.
+- The CSV has a header row and quotes every cell. Cells starting with `= + - @` get a leading `'` so spreadsheets don't run them as formulas. It is sent with `Cache-Control: no-store` because it holds contact details.
 
 ---
 

@@ -37,6 +37,7 @@ const LINKS_BY_ROLE = {
     { to: "/dashboard", label: "Dashboard" },
     { to: "/admin/verifications", label: "Verifications" },
     { to: "/admin/reports", label: "Reports" },
+    { to: "/admin/alumni", label: "Alumni data" },
     { to: "/admin/users", label: "Users" },
     { to: "/admin/institutions", label: "Colleges" },
     { to: "/forum", label: "Forum" },

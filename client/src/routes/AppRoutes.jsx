@@ -25,6 +25,7 @@ import Verifications from "../pages/admin/Verifications";
 import Reports from "../pages/admin/Reports";
 import Users from "../pages/admin/Users";
 import Institutions from "../pages/admin/Institutions";
+import AlumniDatabase from "../pages/admin/AlumniDatabase";
 import NotFound from "../pages/NotFound";
 
 /**
@@ -43,7 +44,7 @@ import NotFound from "../pages/NotFound";
  * - Students and alumni: /profile/edit (admins have no profile)
  * - Students only: /mentorship/requests, /applications
  * - Alumni only:   /mentorship/incoming, /jobs/new (the page also checks verification)
- * - Admins only: /admin/verifications, /admin/reports, /admin/users, /admin/institutions
+ * - Admins only: /admin/verifications, /admin/reports, /admin/users, /admin/institutions, /admin/alumni
  * - *  → 404 fallback page
  */
 export default function AppRoutes() {
@@ -97,6 +98,7 @@ export default function AppRoutes() {
           <Route path="admin/reports" element={<Reports />} />
           <Route path="admin/users" element={<Users />} />
           <Route path="admin/institutions" element={<Institutions />} />
+          <Route path="admin/alumni" element={<AlumniDatabase />} />
         </Route>
 
         <Route path="*" element={<NotFound />} />
