@@ -41,6 +41,14 @@ function ensureConfigured() {
   cloudinary.config(true);
 }
 
+// Cloudinary returns authenticated files with a permanent signature in the link
+// (".../image/authenticated/s--AbC123--/v1/..."), which would open the file for anyone
+// who has it. We store the link WITHOUT that part, so it never opens on its own;
+// admins get a short-lived link from signedUrl() instead.
+export function withoutSignature(url) {
+  return url.replace(/\/(image|raw|video)\/authenticated\/s--[^/]+--\//, "/$1/authenticated/");
+}
+
 // Uploads a file held in memory and returns its https URL.
 export function uploadBuffer(buffer, kind) {
   ensureConfigured();
@@ -51,7 +59,7 @@ export function uploadBuffer(buffer, kind) {
       { folder, type, resource_type: "image", use_filename: false, unique_filename: true },
       (err, result) => {
         if (err) return reject(new AppError(502, "UPLOAD_FAILED", "Could not store the file. Please try again"));
-        resolve(result.secure_url);
+        resolve(type === "authenticated" ? withoutSignature(result.secure_url) : result.secure_url);
       }
     );
     stream.end(buffer);
@@ -63,7 +71,7 @@ export function uploadBuffer(buffer, kind) {
 export function signedUrl(storedUrl, seconds = 10 * 60) {
   ensureConfigured();
   // Stored URLs look like .../image/authenticated/v123/alumsetu/verification/abc.pdf
-  const match = storedUrl.match(/\/image\/authenticated\/(?:v\d+\/)?(.+)\.(\w+)$/);
+  const match = withoutSignature(storedUrl).match(/\/image\/authenticated\/(?:v\d+\/)?(.+)\.(\w+)$/);
   if (!match) return storedUrl;
   const [, publicId, format] = match;
   return cloudinary.utils.private_download_url(publicId, format, {
