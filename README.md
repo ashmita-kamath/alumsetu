@@ -7,6 +7,21 @@ AlumSetu is a web platform where current students connect with verified alumni f
 > Capstone project for **Advanced Programming (AP)** and **Data Engineering (DE)**, Newton School of Technology.
 > Problem statement: SIH 2024, *Intelligent platform to interconnect Alumni and Students*, Technical Education Department, Govt. of Rajasthan.
 
+## Live
+
+| | Link |
+|---|---|
+| Website | *(Vercel link, added once deployed)* |
+| API | https://alumsetu-api.onrender.com/api · [health check](https://alumsetu-api.onrender.com/api/health) |
+
+Demo accounts (student, verified alumni, admin) are listed in [`docs/DEPLOYMENT.md`](docs/DEPLOYMENT.md); the password is shared with evaluators on request.
+The API runs on Render's free plan, so the first request after a quiet period takes about a minute.
+
+Check the live server end to end (from `server/`):
+```
+API_URL=https://alumsetu-api.onrender.com/api DEMO_PASSWORD='...' npm run smoke-test
+```
+
 ---
 
 ## Features
@@ -140,17 +155,19 @@ Protected endpoints need `Authorization: Bearer <token>` from `POST /api/auth/lo
 ## Milestones
 
 - [x] **Stage 1 (13–24 Oct):** ideation, architecture, ER diagram, repo
-- [ ] Auth and profiles
-- [ ] Directory, mentorship, AI matching
-- [ ] Forum, events, jobs, admin panel
-- [ ] **Stage 2 (26 Nov – 4 Dec):** integration, live deployment, presentation
+- [x] Auth and profiles
+- [x] Directory, mentorship, AI matching
+- [x] Forum, events, jobs, admin panel
+- [x] API deployed on Render, database on Neon, private uploads on Cloudinary (smoke test: 17/17)
+- [ ] Website on Vercel
+- [ ] **Stage 2 (26 Nov – 4 Dec):** integration, presentation
 
 ## Credits and Attribution
 
 - Problem statement: Smart India Hackathon 2024 (Govt. of Rajasthan)
 - Libraries: React, Vite, Express, pg, jsonwebtoken, bcrypt, Zod, Winston, Morgan, Tailwind CSS, Cloudinary SDK
 - Diagrams: Graphviz, Mermaid
-- AI tools: Claude (Anthropic) was used to help with planning, documentation and the database design draft. All code and design are reviewed by the team.
+- AI tools: Claude (Anthropic) was used as a coding and documentation assistant. All changes were reviewed by the team through pull requests.
 
 ## License
 
