@@ -143,14 +143,15 @@ await step("GET /profiles/me returns the student profile with skills", async () 
 
 console.log("\n2. Alumni verification (uploads)");
 let uploadsWork = true;
-const tinyPdf = () =>
-  new Blob([Buffer.from("%PDF-1.4\n1 0 obj<</Type/Catalog>>endobj\ntrailer<</Root 1 0 R>>\n%%EOF\n")], {
-    type: "application/pdf",
+// A real 1x1 PNG. (Cloudinary checks PDFs properly, so a hand-made fake PDF is rejected.)
+const tinyPng = () =>
+  new Blob([Buffer.from("iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=", "base64")], {
+    type: "image/png",
   });
 await step("alumni uploads a verification document as a PRIVATE file", async () => {
   const form = new FormData();
   form.append("kind", "verification");
-  form.append("file", tinyPdf(), "proof.pdf");
+  form.append("file", tinyPng(), "proof.png");
   const r = await call("POST", "/uploads", { as: users.alumni, form });
   if (r.status === 500 && /not configured/i.test(r.data?.error?.message || "")) {
     uploadsWork = false;
@@ -166,7 +167,7 @@ await step("student uploads a resume", async () => {
   if (!uploadsWork) return skip("resume upload", "CLOUDINARY_URL is not set on Render");
   const form = new FormData();
   form.append("kind", "resume");
-  form.append("file", tinyPdf(), "resume.pdf");
+  form.append("file", tinyPng(), "resume.png");
   const r = await call("POST", "/uploads", { as: users.student, form });
   expect(r.status === 201 && r.data?.url, `status ${r.status}`, r.data);
 });
