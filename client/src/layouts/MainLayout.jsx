@@ -1,6 +1,7 @@
 import { Outlet } from "react-router-dom";
 import Navbar from "../components/layout/Navbar";
 import Footer from "../components/layout/Footer";
+import HelpChat from "../components/assistant/HelpChat";
 
 /**
  * MainLayout wraps every public page with the Navbar on top
@@ -23,6 +24,9 @@ export default function MainLayout() {
       </main>
 
       <Footer />
+
+      {/* Floating help assistant, on every page */}
+      <HelpChat />
     </div>
   );
 }

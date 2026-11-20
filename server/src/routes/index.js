@@ -13,6 +13,7 @@ import uploadRoutes from "./uploads.js";
 import verificationRoutes from "./verification.js";
 import reportRoutes from "./reports.js";
 import adminRoutes from "./admin.js";
+import assistantRoutes from "./assistant.js";
 
 const router = Router();
 
@@ -29,6 +30,7 @@ router.use("/", jobRoutes); // /jobs, /applications
 router.use("/uploads", uploadRoutes);
 router.use("/verification", verificationRoutes);
 router.use("/", reportRoutes); // /reports, /admin/reports
+router.use("/assistant", assistantRoutes);
 router.use("/admin", adminRoutes); // /admin/stats, /admin/verifications, /admin/users
 
 export default router;
