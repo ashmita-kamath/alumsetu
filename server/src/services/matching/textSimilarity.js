@@ -48,8 +48,9 @@ function inverseDocumentFrequency(tokenizedDocs) {
 }
 
 // Builds one TF-IDF vector (a Map of word -> weight) per document.
-export function tfidfVectors(texts) {
-  const tokenizedDocs = texts.map(tokenize);
+// `tokenizer` can be swapped (the help assistant uses its own word list).
+export function tfidfVectors(texts, tokenizer = tokenize) {
+  const tokenizedDocs = texts.map(tokenizer);
   const idf = inverseDocumentFrequency(tokenizedDocs);
   return tokenizedDocs.map((tokens) => {
     const vector = new Map();

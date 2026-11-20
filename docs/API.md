@@ -126,6 +126,17 @@ PUT body for an **alumnus**:
 | GET | `/skills?search=py` | none | | `[ { id, name } ]` |
 | POST | `/skills` | any | `{ name }` | `201 { skill }` (returns the existing one if the name already exists) |
 
+### Help assistant
+| Method | Path | Auth | Body | Returns |
+|---|---|---|---|---|
+| GET | `/assistant` | optional | | `{ answer, suggestions }` (greeting for the current role) |
+| POST | `/assistant` | optional | `{ message }` (1–300 chars) | `{ topic, answer, links, items, suggestions }` |
+
+- Works for visitors too; logged-in users get answers for their role. A bad or expired token is treated as a visitor.
+- The message is matched to a help topic in `server/src/data/assistantFaq.js` with TF-IDF and cosine similarity (the same code as mentor matching). Below a similarity of 0.3, `topic` is `null` and `suggestions` lists questions it can answer.
+- `links`: `[{ label, to }]` pages in the website. `items`: live data for some topics, `[{ title, subtitle, to }]`: a student's top 3 mentor matches, the next 3 events or the 3 newest jobs (logged-in users only).
+- Abusive messages get a polite refusal (`topic: null`), not an error.
+
 ### Alumni directory: owner Ashmita
 | Method | Path | Auth | Returns |
 |---|---|---|---|
