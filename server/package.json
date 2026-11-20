@@ -10,7 +10,8 @@
     "db:check": "node src/scripts/dbCheck.js",
     "test": "node --env-file-if-exists=.env --test tests/*.test.js",
     "create-admin": "node src/scripts/createAdmin.js",
-    "create-demo-users": "node src/scripts/createDemoUsers.js"
+    "create-demo-users": "node src/scripts/createDemoUsers.js",
+    "smoke-test": "node src/scripts/smokeTest.js"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
