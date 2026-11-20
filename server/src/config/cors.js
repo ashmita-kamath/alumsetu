@@ -37,6 +37,8 @@ export function corsOptions(value = process.env.CLIENT_URL) {
     },
     methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
+    // Lets the website read the file name of a download (the alumni CSV export)
+    exposedHeaders: ["Content-Disposition"],
     maxAge: 600,
   };
 }

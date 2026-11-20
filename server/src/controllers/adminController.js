@@ -24,3 +24,18 @@ export async function listUsers(req, res) {
 export async function setUserStatus(req, res) {
   res.json({ user: await adminService.setUserStatus(req.user, req.params.userId, req.body.status) });
 }
+
+// GET /api/admin/alumni?search=&institution_id=&branch=&graduation_year=&employment_status=&verified=
+export async function listAlumni(req, res) {
+  res.json(await adminService.listAlumni(req.query));
+}
+
+// GET /api/admin/alumni/export (same filters) → CSV file download
+export async function exportAlumni(req, res) {
+  const csv = await adminService.exportAlumniCsv(req.query);
+  const date = new Date().toISOString().slice(0, 10);
+  res.set("Content-Type", "text/csv; charset=utf-8");
+  res.set("Content-Disposition", `attachment; filename="alumsetu-alumni-${date}.csv"`);
+  res.set("Cache-Control", "no-store"); // contact details: don't keep copies in caches
+  res.send(csv);
+}
