@@ -13,7 +13,9 @@ const calls = [];
 mock.method(cloudinary.uploader, "upload_stream", (options, callback) => ({
   end: () => {
     calls.push(options);
-    callback(null, { secure_url: `https://res.cloudinary.com/demo/image/${options.type}/v1/${options.folder}/abc.pdf` });
+    // Real Cloudinary adds a signature ("s--...--") to authenticated links
+    const sig = options.type === "authenticated" ? "s--Sig123_x--/" : "";
+    callback(null, { secure_url: `https://res.cloudinary.com/demo/image/${options.type}/${sig}v1/${options.folder}/abc.pdf` });
   },
 }));
 
@@ -49,6 +51,7 @@ test("an alumnus uploads a verification document as a private file", async () =>
   assert.equal(res.status, 201);
   assert.match(res.body.url, /^https:\/\/res\.cloudinary\.com\//);
   assert.equal(calls.at(-1).type, "authenticated");
+  assert.doesNotMatch(res.body.url, /s--/, "the stored link must not carry a permanent signature");
   assert.equal(calls.at(-1).folder, "alumsetu/verification");
 });
 
