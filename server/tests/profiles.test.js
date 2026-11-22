@@ -73,6 +73,53 @@ test("an alumnus can save a profile but can never verify themselves", async () =
   assert.equal(res.body.profile.available_for_mentoring, true);
 });
 
+test("an alumnus's full record (employment, about, achievements, phone) is saved and shown", async () => {
+  const body = {
+    institution_id: inst, branch: "ME", graduation_year: 2016, job_title: "Plant Manager",
+    employment_status: "employed", bio: "Ten years in manufacturing.",
+    achievements: "Best Outgoing Student 2016; Six Sigma Green Belt", phone: "+91 98290 12345",
+  };
+  let res = await request(app).put("/api/profiles/me").set(as(alumnus)).send(body);
+  assert.equal(res.status, 200);
+  assert.equal(res.body.profile.employment_status, "employed");
+  assert.equal(res.body.profile.achievements, body.achievements);
+  assert.equal(res.body.profile.phone, body.phone); // your own profile shows your phone
+
+  // The phone is a private contact detail: hidden from other users, shown to admins
+  res = await request(app).get(`/api/profiles/${alumnus.id}`).set(as(other));
+  assert.equal(res.body.profile.phone, undefined);
+  assert.equal(res.body.profile.bio, body.bio);
+  res = await request(app).get(`/api/profiles/${alumnus.id}`).set(as(admin));
+  assert.equal(res.body.profile.phone, body.phone);
+
+  // The directory profile shows the record but never the phone
+  res = await request(app).get(`/api/alumni/${alumnus.id}`).set(as(other));
+  assert.equal(res.body.achievements, body.achievements);
+  assert.equal(res.body.employment_status, "employed");
+  assert.equal(res.body.phone, undefined);
+});
+
+test("bad employment status or phone number is rejected", async () => {
+  const base = { institution_id: inst, branch: "ME", graduation_year: 2016 };
+  let res = await request(app).put("/api/profiles/me").set(as(alumnus)).send({ ...base, employment_status: "retired" });
+  assert.equal(res.status, 400);
+  res = await request(app).put("/api/profiles/me").set(as(alumnus)).send({ ...base, phone: "call me" });
+  assert.equal(res.status, 400);
+  assert.ok(res.body.error.details.some((d) => d.field === "phone"));
+});
+
+test("profile text goes through the moderation filter and nothing is saved", async () => {
+  let res = await request(app).put("/api/profiles/me").set(as(alumnus))
+    .send({ institution_id: inst, branch: "ME", graduation_year: 2016, bio: "This is SHIT advice" });
+  assert.equal(res.status, 422);
+  assert.equal(res.body.error.code, "CONTENT_BLOCKED");
+  res = await request(app).put("/api/profiles/me").set(as(other))
+    .send({ institution_id: inst, branch: "CSE", enrollment_year: 2024, expected_grad_year: 2028, career_goal: "what a bastard" });
+  assert.equal(res.status, 422);
+  res = await request(app).get(`/api/profiles/${alumnus.id}`).set(as(admin));
+  assert.equal(res.body.profile.bio, "Ten years in manufacturing.");
+});
+
 test("a bad LinkedIn URL is rejected", async () => {
   const res = await request(app).put("/api/profiles/me").set(as(alumnus))
     .send({ institution_id: inst, branch: "ECE", graduation_year: 2019, linkedin_url: "linkedin.com/x" });

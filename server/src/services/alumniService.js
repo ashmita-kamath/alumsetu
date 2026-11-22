@@ -83,7 +83,7 @@ export async function listMentorCandidates() {
 
 export async function getAlumniById(userId) {
   const { rows } = await query(
-    `SELECT ${CARD_COLUMNS}, ap.linkedin_url ${FROM_ALUMNI} AND u.id = $1`,
+    `SELECT ${CARD_COLUMNS}, ap.linkedin_url, ap.employment_status, ap.bio, ap.achievements ${FROM_ALUMNI} AND u.id = $1`,
     [userId]
   );
   return rows[0] || null;

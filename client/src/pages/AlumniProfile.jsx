@@ -2,10 +2,12 @@ import { Link, useParams } from "react-router-dom";
 import useApi from "../hooks/useApi";
 import { Alert, Badge, Card, PageLoader } from "../components/ui";
 import RequestMentorshipButton from "../components/mentorship/RequestMentorshipButton";
+import { employmentLabel } from "../utils/employment";
 
 /**
  * One alumnus's public profile → GET /alumni/:userId
- * (an AlumniCard plus linkedin_url).
+ * (an AlumniCard plus linkedin_url, employment_status, bio and achievements).
+ * The phone number is never sent here; only admins see it.
  *
  * `userId` comes from the URL (/alumni/:userId) via useParams().
  */
@@ -30,6 +32,7 @@ export default function AlumniProfile() {
     { label: "College", value: alumnus.institution?.name },
     { label: "Branch", value: alumnus.branch },
     { label: "Graduated", value: alumnus.graduation_year },
+    { label: "Currently", value: employmentLabel(alumnus.employment_status) },
     { label: "Company", value: alumnus.current_company },
     { label: "Job title", value: alumnus.job_title },
     { label: "Industry", value: alumnus.industry },
@@ -72,9 +75,23 @@ export default function AlumniProfile() {
           ))}
         </dl>
 
+        {alumnus.bio && (
+          <div className="mt-6 border-t border-gray-100 pt-6">
+            <h2 className="text-sm font-semibold uppercase tracking-wide text-body/70">About</h2>
+            <p className="mt-2 whitespace-pre-line text-sm text-navy">{alumnus.bio}</p>
+          </div>
+        )}
+
+        {alumnus.achievements && (
+          <div className="mt-6 border-t border-gray-100 pt-6">
+            <h2 className="text-sm font-semibold uppercase tracking-wide text-body/70">Achievements</h2>
+            <p className="mt-2 whitespace-pre-line text-sm text-navy">{alumnus.achievements}</p>
+          </div>
+        )}
+
         {alumnus.skills?.length > 0 && (
           <div className="mt-6 border-t border-gray-100 pt-6">
-            <h2 className="text-sm font-semibold uppercase tracking-wide text-body/70">Skills</h2>
+            <h2 className="text-sm font-semibold uppercase tracking-wide text-body/70">Skills and expertise</h2>
             <ul className="mt-2 flex flex-wrap gap-2">
               {alumnus.skills.map((s) => (
                 <li key={s.id}>
