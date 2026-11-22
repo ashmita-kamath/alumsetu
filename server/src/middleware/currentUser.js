@@ -57,6 +57,18 @@ export async function requireUser(req, res, next) {
   }
 }
 
+// Like requireUser, but visitors who aren't logged in may continue (req.user = null).
+// A bad or expired token also counts as "not logged in" here.
+export async function optionalUser(req, res, next) {
+  try {
+    if (!req.user) req.user = await findUser(req);
+  } catch {
+    req.user = null;
+  }
+  if (req.user?.status === "suspended") req.user = null;
+  return next();
+}
+
 // Allows only the listed roles, e.g. allowRoles("student").
 export function allowRoles(...roles) {
   return (req, res, next) => {
