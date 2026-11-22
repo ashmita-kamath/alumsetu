@@ -131,3 +131,101 @@ export async function setUserStatus(admin, userId, status) {
   );
   return updated.rows[0];
 }
+
+// ---------- Alumni database ----------
+// The problem statement's "centralized system for tracking alumni": every
+// alumnus with contact details, education, employment and expertise, for the
+// department to search and download. Admin-only, so email and phone are included.
+
+const ALUMNI_COLUMNS = `
+  u.id AS user_id, u.full_name, u.email, ap.phone, u.status, u.created_at,
+  i.name AS institution, i.city, i.district,
+  ap.branch, ap.graduation_year, ap.employment_status, ap.current_company, ap.job_title,
+  ap.industry, ap.location, ap.linkedin_url, ap.achievements, ap.is_verified, ap.available_for_mentoring,
+  COALESCE((SELECT string_agg(s.name, ', ' ORDER BY s.name)
+              FROM user_skills us JOIN skills s ON s.id = us.skill_id
+             WHERE us.user_id = u.id), '') AS skills`;
+
+const ALUMNI_FROM = `
+  FROM users u
+  JOIN alumni_profiles ap ON ap.user_id = u.id
+  JOIN institutions i ON i.id = ap.institution_id`;
+
+function alumniFilters({ search, institution_id, branch, graduation_year, employment_status, verified }) {
+  const params = [];
+  const conditions = ["u.role = 'alumni'"];
+  const add = (sql, value) => {
+    params.push(value);
+    conditions.push(sql.replaceAll("?", `$${params.length}`));
+  };
+  if (search) add("(u.full_name ILIKE ? OR u.email ILIKE ? OR ap.current_company ILIKE ?)", `%${search}%`);
+  if (institution_id) add("ap.institution_id = ?", institution_id);
+  if (branch) add("ap.branch ILIKE ?", branch);
+  if (graduation_year) add("ap.graduation_year = ?", graduation_year);
+  if (employment_status === "unknown") conditions.push("ap.employment_status IS NULL");
+  else if (employment_status) add("ap.employment_status = ?", employment_status);
+  if (verified === "yes") conditions.push("ap.is_verified");
+  if (verified === "no") conditions.push("NOT ap.is_verified");
+  return { where: `WHERE ${conditions.join(" AND ")}`, params };
+}
+
+// Paginated list, plus a count per employment status for the same filters
+// (ignoring the employment filter itself) so the page can show a breakdown.
+export async function listAlumni(filters) {
+  const { page, limit } = filters;
+  const { where, params } = alumniFilters(filters);
+  const total = (await query(`SELECT count(*)::int AS n ${ALUMNI_FROM} ${where}`, params)).rows[0].n;
+  const { rows } = await query(
+    `SELECT ${ALUMNI_COLUMNS} ${ALUMNI_FROM} ${where}
+      ORDER BY u.full_name
+      LIMIT $${params.length + 1} OFFSET $${params.length + 2}`,
+    [...params, limit, (page - 1) * limit]
+  );
+
+  const breakdown = alumniFilters({ ...filters, employment_status: undefined });
+  const counts = await query(
+    `SELECT COALESCE(ap.employment_status::text, 'unknown') AS status, count(*)::int AS n
+       ${ALUMNI_FROM} ${breakdown.where}
+      GROUP BY 1`,
+    breakdown.params
+  );
+  const by_employment = Object.fromEntries(counts.rows.map((r) => [r.status, r.n]));
+
+  return { items: rows, page, limit, total, by_employment };
+}
+
+export const EXPORT_LIMIT = 10000;
+
+const CSV_COLUMNS = [
+  ["full_name", "Name"], ["email", "Email"], ["phone", "Phone"], ["institution", "College"],
+  ["city", "City"], ["district", "District"], ["branch", "Branch"], ["graduation_year", "Graduation year"],
+  ["employment_status", "Employment status"], ["current_company", "Company"], ["job_title", "Job title"],
+  ["industry", "Industry"], ["location", "Location"], ["skills", "Skills"], ["achievements", "Achievements"],
+  ["linkedin_url", "LinkedIn"], ["is_verified", "Verified"], ["available_for_mentoring", "Mentoring"],
+  ["status", "Account status"], ["created_at", "Joined"],
+];
+
+// Quotes every cell, and stops spreadsheet formulas: a cell starting with
+// = + - @ would otherwise run as a formula when the file is opened in Excel.
+export function csvCell(value) {
+  if (value === null || value === undefined) return '""';
+  let text;
+  if (value instanceof Date) text = value.toISOString().slice(0, 10);
+  else if (typeof value === "boolean") text = value ? "Yes" : "No";
+  else text = String(value);
+  if (/^[=+\-@\t\r]/.test(text)) text = `'${text}`;
+  return `"${text.replaceAll('"', '""')}"`;
+}
+
+// Every alumnus matching the filters (up to EXPORT_LIMIT) as CSV text.
+export async function exportAlumniCsv(filters) {
+  const { where, params } = alumniFilters(filters);
+  const { rows } = await query(
+    `SELECT ${ALUMNI_COLUMNS} ${ALUMNI_FROM} ${where} ORDER BY u.full_name LIMIT ${EXPORT_LIMIT}`,
+    params
+  );
+  const lines = [CSV_COLUMNS.map(([, label]) => csvCell(label)).join(",")];
+  for (const row of rows) lines.push(CSV_COLUMNS.map(([key]) => csvCell(row[key])).join(","));
+  // The BOM makes Excel open the file as UTF-8
+  return "﻿" + lines.join("\r\n") + "\r\n";
+}

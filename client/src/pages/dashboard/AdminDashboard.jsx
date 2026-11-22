@@ -52,10 +52,10 @@ export default function AdminDashboard() {
 
       <h2 className="mt-10 text-lg font-bold">Manage</h2>
       <div className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <DashboardTile to="/admin/alumni" title="Alumni database" text="Contact details, batch and employment of every alumnus. Download as CSV." />
         <DashboardTile to="/admin/users" title="Users" text="Search accounts and suspend or re-activate them." />
         <DashboardTile to="/admin/institutions" title="Colleges" text="See the college list and add new colleges." />
         <DashboardTile to="/forum" title="Forum" text="Read discussions; hidden posts are visible to you." />
-        <DashboardTile to="/alumni" title="Alumni directory" text="Browse all alumni accounts." />
         <DashboardTile to="/events" title="Events" text="See and manage all events." />
         <DashboardTile to="/jobs" title="Jobs" text="See and remove job posts." />
       </div>

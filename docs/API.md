@@ -303,6 +303,18 @@ PDF, JPG or PNG only, max 5 MB. Stored on Cloudinary; verification files are upl
 - Each item from `GET /admin/users`: `{ id, email, full_name, role, status, created_at, is_verified }` (`is_verified` is `null` for non-alumni).
 - An admin cannot change their own status (`400`) or suspend another admin (`403`). Suspension takes effect immediately, because every request re-checks the account status.
 
+**Alumni database** (the department's central alumni record)
+
+| Method | Path | Auth | Returns |
+|---|---|---|---|
+| GET | `/admin/alumni?search=&institution_id=&branch=&graduation_year=&employment_status=&verified=` | admin | paginated alumni + `by_employment` |
+| GET | `/admin/alumni/export` (same filters, no paging) | admin | CSV file download (up to 10 000 rows) |
+
+- Each item: `{ user_id, full_name, email, phone, status, created_at, institution, city, district, branch, graduation_year, employment_status, current_company, job_title, industry, location, linkedin_url, achievements, is_verified, available_for_mentoring, skills }` (`skills` is a comma-separated string).
+- `employment_status` filter: one of the profile values, or `unknown` for alumni who haven't said. `verified`: `yes` or `no`.
+- `by_employment`: count per employment status for the same filters (the employment filter itself is ignored), e.g. `{ "employed": 41, "higher_studies": 6, "unknown": 3 }`.
+- The CSV has a header row and quotes every cell. Cells starting with `= + - @` get a leading `'` so spreadsheets don't run them as formulas. It is sent with `Cache-Control: no-store` because it holds contact details.
+
 ---
 
 ## 4. Permission summary

@@ -141,4 +141,32 @@ export async function uploadFile(file, kind) {
   return url;
 }
 
+/**
+ * Downloads a file the API sends back (e.g. the CSV export).
+ * A plain link can't send the login token, so we fetch it with the token,
+ * then hand the result to the browser as a download.
+ */
+export async function downloadFile(endpoint, fallbackName = "download") {
+  const token = localStorage.getItem(TOKEN_KEY);
+  let response;
+  try {
+    response = await fetch(`${BASE_URL}${endpoint}`, { headers: token ? { Authorization: `Bearer ${token}` } : {} });
+  } catch {
+    throw new Error("Cannot reach the server. Check your connection and try again.");
+  }
+  if (!response.ok) {
+    const data = await response.json().catch(() => null);
+    throw new Error(data?.error?.message || "Download failed");
+  }
+  const name = /filename="([^"]+)"/.exec(response.headers.get("Content-Disposition") || "")?.[1] || fallbackName;
+  const url = URL.createObjectURL(await response.blob());
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = name;
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
+  URL.revokeObjectURL(url);
+}
+
 export default api;

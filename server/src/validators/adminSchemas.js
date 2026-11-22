@@ -1,5 +1,6 @@
 import { z } from "zod";
-import { optionalText, pagination } from "./common.js";
+import { optionalText, pagination, positiveInt, year } from "./common.js";
+import { EMPLOYMENT_STATUSES } from "./profileSchemas.js";
 
 export const listVerificationsQuery = z.object({
   status: z.enum(["pending", "approved", "rejected"]).optional(),
@@ -27,3 +28,16 @@ export const listUsersQuery = z.object({
 export const userStatusSchema = z.object({
   status: z.enum(["active", "suspended"]),
 });
+
+// Filters for the alumni database (list and CSV export)
+const alumniFilters = {
+  search: z.string().trim().max(100).optional(),
+  institution_id: positiveInt.optional(),
+  branch: z.string().trim().max(100).optional(),
+  graduation_year: year.optional(),
+  employment_status: z.enum([...EMPLOYMENT_STATUSES, "unknown"]).optional(),
+  verified: z.enum(["yes", "no"]).optional(),
+};
+
+export const listAlumniQuery = z.object({ ...alumniFilters, ...pagination });
+export const exportAlumniQuery = z.object(alumniFilters);
